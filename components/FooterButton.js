@@ -1,0 +1,30 @@
+import React from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+
+export default function FooterButton({ label, onPressAction }) {
+  return (
+    <TouchableOpacity onPress={onPressAction} style={styles.footerButton}>
+      <Text style={styles.footerButtonText}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const styles = StyleSheet.create({
+  footerButton: {
+    width: '100%',
+    zIndex: 2,
+    height: 64,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.06
+  },
+  footerButtonText: {
+    fontSize: 14,
+    lineHeight: 24,
+    fontWeight: '600',
+    textTransform: 'uppercase'
+  }
+});
