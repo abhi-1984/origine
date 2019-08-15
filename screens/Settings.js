@@ -8,7 +8,9 @@ import {
   Modal,
   Dimensions,
   TouchableOpacity,
-  Picker
+  Picker,
+  TextInput,
+  KeyboardAvoidingView
 } from 'react-native';
 import SettingsRow from '../components/SettingsRow';
 import Version from '../components/Version';
@@ -164,7 +166,9 @@ export default class Settings extends React.Component {
     openCurrencySelection: false,
     availableSortType: ['Max. Amount', 'Min. Amount', 'Alphabetical'],
     selectedSortType: '',
-    openSortTypeSelection: true
+    openSortTypeSelection: false,
+    highAlertAmount: '50',
+    openHighAlertAmountView: false
   };
 
   componentDidMount() {
@@ -223,6 +227,18 @@ export default class Settings extends React.Component {
     });
   };
 
+  closeHighAlertAmountModal = () => {
+    this.setState({
+      openHighAlertAmountView: false
+    });
+  };
+
+  openHighAlertAmountModal = () => {
+    this.setState({
+      openHighAlertAmountView: true
+    });
+  };
+
   render() {
     const {
       selectedTotalType,
@@ -233,7 +249,9 @@ export default class Settings extends React.Component {
       supportedCurrencies,
       selectedSortType,
       availableSortType,
-      openSortTypeSelection
+      openSortTypeSelection,
+      highAlertAmount,
+      openHighAlertAmountView
     } = this.state;
 
     return (
@@ -388,6 +406,51 @@ export default class Settings extends React.Component {
           </View>
         </Modal>
 
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={openHighAlertAmountView}
+        >
+          <View style={styles.overlay}>
+            <KeyboardAvoidingView>
+              <View style={styles.popupView}>
+                <View style={styles.popupHeader}>
+                  <Text style={styles.popupTitle}>View Total as</Text>
+                  <TouchableOpacity
+                    style={styles.closeView}
+                    onPress={() => {
+                      this.closeHighAlertAmountModal();
+                    }}
+                  >
+                    <Text>close</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.popupBody}>
+                  <TextInput
+                    allowFontScaling={true}
+                    returnKeyType='done'
+                    autoFocus={true}
+                    keyboardType={'numeric'}
+                    onChangeText={highAlertAmount =>
+                      this.setState({ highAlertAmount })
+                    }
+                    value={highAlertAmount}
+                    style={styles.amountField}
+                  />
+
+                  <TouchableOpacity
+                    onPress={() => this.closeHighAlertAmountModal()}
+                    style={styles.doneButton}
+                  >
+                    <Text style={styles.doneButtonText}>Done</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </KeyboardAvoidingView>
+          </View>
+        </Modal>
+
         <View style={styles.pageHeader}>
           <Text style={styles.pageTitle}>Preferences</Text>
         </View>
@@ -407,7 +470,11 @@ export default class Settings extends React.Component {
             defaultValue={selectedSortType}
             onPressAction={() => this.openSortTypeSelectionModal()}
           />
-          <SettingsRow title='High Alert Amount' defaultValue='$80.00' />
+          <SettingsRow
+            title='High Alert Amount'
+            defaultValue={`${selectedCurrency} ${highAlertAmount}`}
+            onPressAction={() => this.openHighAlertAmountModal()}
+          />
           <SettingsRow
             onPressAction={() => this.openAboutScreen()}
             title='About Us'
@@ -512,5 +579,16 @@ const styles = StyleSheet.create({
   pickerView: {
     width: '100%',
     flex: 1
+  },
+  amountField: {
+    width: 280,
+    height: 50,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    fontSize: 20,
+    textAlign: 'center',
+    marginHorizontal: 30,
+    marginVertical: 30
   }
 });
