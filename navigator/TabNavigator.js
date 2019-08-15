@@ -8,6 +8,7 @@ import Settings from '../screens/Settings';
 import About from '../screens/About';
 import FormView from '../screens/FormView';
 import AddSubscription from '../screens/AddSubscription';
+import Popover from '../screens/Popover';
 import { Ionicons } from '@expo/vector-icons';
 
 const activeColor = '#000000';
@@ -48,7 +49,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
 const SettingsStack = createStackNavigator(
   {
     Settings,
-    About
+    About,
+    Popover
   },
   {
     mode: 'modal'
@@ -59,7 +61,7 @@ SettingsStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
   const routeName = navigation.state.routes[navigation.state.index].routeName;
 
-  if (routeName == 'About') {
+  if (routeName == 'About' || routeName == 'Popover') {
     tabBarVisible = false;
   }
 
