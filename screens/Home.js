@@ -19,8 +19,8 @@ export default class Home extends React.Component {
     this.props.navigation.push('AddSubscription');
   };
 
-  openFormView = () => {
-    this.props.navigation.push('FormView');
+  openFormView = item => {
+    this.props.navigation.navigate('FormView', { pageData: item });
   };
 
   render() {
@@ -35,7 +35,7 @@ export default class Home extends React.Component {
           keyExtractor={item => item.key.toString()}
           renderItem={({ item }) => (
             <SubscriptionRow
-              onPressAction={() => this.openFormView()}
+              onPressAction={() => this.openFormView(item)}
               data={item}
             />
           )}

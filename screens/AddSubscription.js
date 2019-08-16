@@ -20,8 +20,23 @@ export default class AddSubscription extends React.Component {
     this.props.navigation.goBack();
   };
 
-  openFormView = () => {
-    this.props.navigation.push('FormView');
+  prepareForSendingData = item => {
+    return {
+      pageTitle: 'Add Subscription',
+      name: item.name,
+      logo: item.logo,
+      amount: '0.0',
+      firstBillDate: 'Aug 17, 2019',
+      billingCycle: 'Monthly',
+      reminder: '2',
+      currency: 'USD ($)'
+    };
+  };
+
+  openFormView = item => {
+    this.props.navigation.push('FormView', {
+      pageData: this.prepareForSendingData(item)
+    });
   };
 
   render() {
@@ -37,7 +52,7 @@ export default class AddSubscription extends React.Component {
           keyExtractor={item => item.key.toString()}
           renderItem={({ item }) => (
             <AddSubscriptionRow
-              handlePress={() => this.openFormView()}
+              handlePress={() => this.openFormView(item)}
               label={item.name}
               logo={item.logo}
             />

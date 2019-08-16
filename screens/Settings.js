@@ -412,77 +412,87 @@ export default class Settings extends React.Component {
           visible={openHighAlertAmountView}
         >
           <View style={styles.overlay}>
-            <KeyboardAvoidingView>
-              <View style={styles.popupView}>
-                <View style={styles.popupHeader}>
-                  <Text style={styles.popupTitle}>View Total as</Text>
-                  <TouchableOpacity
-                    style={styles.closeView}
-                    onPress={() => {
-                      this.closeHighAlertAmountModal();
-                    }}
-                  >
-                    <Text>close</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.popupBody}>
-                  <TextInput
-                    allowFontScaling={true}
-                    returnKeyType='done'
-                    autoFocus={true}
-                    keyboardType={'numeric'}
-                    onChangeText={highAlertAmount =>
-                      this.setState({ highAlertAmount })
-                    }
-                    value={highAlertAmount}
-                    style={styles.amountField}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => this.closeHighAlertAmountModal()}
-                    style={styles.doneButton}
-                  >
-                    <Text style={styles.doneButtonText}>Done</Text>
-                  </TouchableOpacity>
-                </View>
+            <View style={styles.popupView}>
+              <View style={styles.popupHeader}>
+                <Text style={styles.popupTitle}>View Total as</Text>
+                <TouchableOpacity
+                  style={styles.closeView}
+                  onPress={() => {
+                    this.closeHighAlertAmountModal();
+                  }}
+                >
+                  <Text>close</Text>
+                </TouchableOpacity>
               </View>
-            </KeyboardAvoidingView>
+
+              <View style={styles.popupBody}>
+                <TextInput
+                  allowFontScaling={true}
+                  returnKeyType='done'
+                  autoFocus={true}
+                  keyboardType={'numeric'}
+                  onChangeText={highAlertAmount =>
+                    this.setState({ highAlertAmount })
+                  }
+                  value={highAlertAmount}
+                  style={styles.amountField}
+                />
+
+                <TouchableOpacity
+                  onPress={() => this.closeHighAlertAmountModal()}
+                  style={styles.doneButton}
+                >
+                  <Text style={styles.doneButtonText}>Done</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </Modal>
 
         <View style={styles.pageHeader}>
           <Text style={styles.pageTitle}>Preferences</Text>
         </View>
-        <ScrollView style={styles.settingsList}>
-          <SettingsRow
-            title='View Total as'
-            onPressAction={() => this.openModal()}
-            defaultValue={selectedTotalType}
-          />
-          <SettingsRow
-            title='Default Currency'
-            defaultValue={selectedCurrency}
-            onPressAction={() => this.openCurrencyModal()}
-          />
-          <SettingsRow
-            title='Sort Subscription'
-            defaultValue={selectedSortType}
-            onPressAction={() => this.openSortTypeSelectionModal()}
-          />
-          <SettingsRow
-            title='High Alert Amount'
-            defaultValue={`${selectedCurrency} ${highAlertAmount}`}
-            onPressAction={() => this.openHighAlertAmountModal()}
-          />
-          <SettingsRow
-            onPressAction={() => this.openAboutScreen()}
-            title='About Us'
-            defaultValue=''
-          />
-          <SettingsRow title='Rate Us' defaultValue='' />
-          <Version versionNumber='v 1.0' />
-        </ScrollView>
+        <KeyboardAvoidingView behavior='position'>
+          <ScrollView style={styles.settingsList}>
+            <SettingsRow
+              title='View Total as'
+              onPressAction={() => this.openModal()}
+              defaultValue={selectedTotalType}
+            />
+            <SettingsRow
+              title='Default Currency'
+              defaultValue={selectedCurrency}
+              onPressAction={() => this.openCurrencyModal()}
+            />
+            <SettingsRow
+              title='Sort Subscription'
+              defaultValue={selectedSortType}
+              onPressAction={() => this.openSortTypeSelectionModal()}
+            />
+
+            <View style={styles.row}>
+              <Text style={styles.rowLabel}>High Alert Amount</Text>
+              <TextInput
+                allowFontScaling={true}
+                returnKeyType='done'
+                keyboardType={'numeric'}
+                onChangeText={highAlertAmount =>
+                  this.setState({ highAlertAmount })
+                }
+                value={highAlertAmount}
+                style={styles.rowField}
+              />
+            </View>
+
+            <SettingsRow
+              onPressAction={() => this.openAboutScreen()}
+              title='About Us'
+              defaultValue=''
+            />
+            <SettingsRow title='Rate Us' defaultValue='' />
+            <Version versionNumber='v 1.0' />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -500,7 +510,8 @@ const styles = StyleSheet.create({
     paddingTop: 45,
     paddingBottom: 15,
     paddingHorizontal: 30,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    zIndex: 10
   },
   pageTitle: {
     fontSize: 30,
@@ -512,6 +523,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 30,
+    borderBottomColor: 'rgba(0,0,0,0.08)',
+    borderBottomWidth: 1
+  },
+  rowLabel: {
+    fontSize: 16
+  },
+  rowField: {
+    fontSize: 16,
+    color: 'rgba(0,0,0,0.6)'
   },
   popupView: {
     width: SCREEN_WIDTH - 40,
