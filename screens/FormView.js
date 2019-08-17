@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,166 +11,166 @@ import {
   Dimensions,
   DatePickerIOS
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import PageTitle from '../components/PageTitle';
 import FooterButton from '../components/FooterButton';
 import SettingsRow from '../components/SettingsRow';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import Modal from 'react-native-modal';
 import Popover from '../components/Popover';
+import { setSubscriptionsData } from '../actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-export default class FormView extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+export default function FormView({ navigation }) {
+  //redux
+  const dispatch = useDispatch();
 
-  state = {
-    pageData: {},
-    name: '',
-    logo: null,
-    amount: null,
-    firstBillDate: '',
-    billingCycle: 'Monthly',
-    showBillingCyclePicker: false,
-    billingCycleOptions: [
-      'Daily',
-      'Weekly',
-      'Monthly',
-      'Every 3 Months',
-      'Every 6 months',
-      'Yearly'
-    ],
-    showFirstBillDatePicker: false
-  };
+  //state
+  const [pageData, setPageData] = useState({});
+  const [name, setName] = useState('');
+  const [logo, setLogo] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [firstBillDate, setFirstBillDate] = useState('');
+  const [billingCycle, setBillingCycle] = useState('Monthly');
+  const [billingCycleOptions, setBillingCycleOptions] = useState([
+    'Daily',
+    'Weekly',
+    'Monthly',
+    'Every 3 Months',
+    'Every 6 months',
+    'Yearly'
+  ]);
+  const [firstBillDatePicker, setFirstBillDatePicker] = useState(false);
+  const [billingCyclePicker, setBillingCyclePicker] = useState(false);
 
-  componentDidMount() {
-    const pageData = this.props.navigation.getParam('pageData', {});
-    this.setState({
-      name: pageData.name,
-      logo: pageData.logo,
-      amount: pageData.amount,
-      firstBillDate: this.formatDate(new Date()),
-      billingCycle: pageData.billingCycle
-    });
-  }
+  useEffect(() => {
+    const pageData = navigation.getParam('pageData', {});
+    setName(pageData.name);
+    setLogo(pageData.logo);
+    setAmount(pageData.amount);
+    setFirstBillDate(formatDate(new Date()));
+    setBillingCycle(pageData.billingCycle);
+  }, []);
 
   openDatePicker = () => {
-    this.setState({
-      showFirstBillDatePicker: true
-    });
+    setFirstBillDatePicker(true);
   };
 
   closeDatePicker = () => {
-    this.setState({
-      showFirstBillDatePicker: false
-    });
+    setFirstBillDatePicker(false);
   };
 
   openPreviousScreen = () => {
-    this.props.navigation.goBack();
+    navigation.goBack();
   };
 
   closeBillingCycleModal = () => {
-    this.setState({
-      showBillingCyclePicker: false
-    });
+    setBillingCyclePicker(false);
   };
 
   openBillingCycleModal = () => {
-    this.setState({
-      showBillingCyclePicker: true
-    });
+    setBillingCyclePicker(true);
   };
 
   formatDate = selectedDate => {
     let currentDate = selectedDate;
 
-    var date = currentDate.getDate();
-    var month = currentDate.getMonth();
-    var year = currentDate.getFullYear();
+    let date = currentDate.getDate();
+    let month = currentDate.getMonth();
+    let year = currentDate.getFullYear();
 
     let finalDate = date + '-' + (month + 1) + '-' + year;
     return finalDate;
   };
 
   handleDatePicked = date => {
-    console.log('A date has been picked: ', date);
-    this.setState({
-      firstBillDate: date
-    });
+    setFirstBillDate(date);
     this.closeDatePicker();
   };
 
   onValueChange = (itemValue, itemPosition) => {
-    this.setState({
-      billingCycle: itemValue
-    });
+    setBillingCycle(itemValue);
   };
 
-  render() {
-    const {
+  addSubscriptionsData = () => {
+    console.log(
+      'name: ',
       name,
-      amount,
-      firstBillDate,
-      billingCycle,
+      ' and logo is ',
       logo,
-      showBillingCyclePicker,
-      billingCycleOptions,
-      showFirstBillDatePicker
-    } = this.state;
-
-    return (
-      <View style={styles.formView}>
-        <PageTitle
-          goBack={() => this.openPreviousScreen()}
-          label={'Add Subscription'}
-        />
-        <ScrollView contentContainerStyle={styles.formWrapper}>
-          <Image style={styles.logo} source={logo} />
-          <Text style={styles.name}>{name}</Text>
-          <TextInput
-            allowFontScaling={true}
-            placeholder='Amount'
-            returnKeyType='done'
-            keyboardType={'numeric'}
-            onChangeText={amount => this.setState({ amount })}
-            style={styles.amountField}
-          />
-          <SettingsRow
-            title='First Bill'
-            onPressAction={() => {
-              this.openDatePicker();
-            }}
-            defaultValue={firstBillDate}
-          />
-          <SettingsRow
-            title='Billing Cycle'
-            onPressAction={() => this.openBillingCycleModal()}
-            defaultValue={billingCycle}
-          />
-
-          <DateTimePicker
-            confirmTextIOS='Done'
-            isVisible={showFirstBillDatePicker}
-            onConfirm={date => this.handleDatePicked(this.formatDate(date))}
-            onCancel={() => this.closeDatePicker()}
-          />
-
-          <Popover
-            isVisible={showBillingCyclePicker}
-            title='Billing Cycle'
-            pickerData={billingCycleOptions}
-            selectedPickerValue={billingCycle}
-            onCloseAction={() => this.closeBillingCycleModal()}
-            setPickerValue={itemValue => this.onValueChange(itemValue)}
-          />
-        </ScrollView>
-
-        <FooterButton isDisabled={amount === ''} label='Save' />
-      </View>
+      ' and amount is ',
+      amount,
+      ' with billing cycle of ',
+      billingCycle,
+      ' and first bill date is ',
+      firstBillDate
     );
-  }
+
+    const data = {
+      name: name,
+      logo: logo,
+      amount: amount,
+      billingCycle: billingCycle
+    };
+
+    dispatch(setSubscriptionsData(data));
+    navigation.navigate('Home');
+  };
+
+  return (
+    <View style={styles.formView}>
+      <PageTitle
+        goBack={() => this.openPreviousScreen()}
+        label={'Add Subscription'}
+      />
+      <ScrollView contentContainerStyle={styles.formWrapper}>
+        <Image style={styles.logo} source={logo} />
+        <Text style={styles.name}>{name}</Text>
+        <TextInput
+          allowFontScaling={true}
+          placeholder='Amount'
+          returnKeyType='done'
+          keyboardType={'numeric'}
+          onChangeText={amount => setAmount(amount)}
+          style={styles.amountField}
+        />
+        <SettingsRow
+          title='First Bill'
+          onPressAction={() => {
+            openDatePicker();
+          }}
+          defaultValue={firstBillDate}
+        />
+        <SettingsRow
+          title='Billing Cycle'
+          onPressAction={() => openBillingCycleModal()}
+          defaultValue={billingCycle}
+        />
+
+        <DateTimePicker
+          confirmTextIOS='Done'
+          isVisible={firstBillDatePicker}
+          onConfirm={date => handleDatePicked(formatDate(date))}
+          onCancel={() => closeDatePicker()}
+        />
+
+        <Popover
+          isVisible={billingCyclePicker}
+          title='Billing Cycle'
+          pickerData={billingCycleOptions}
+          selectedPickerValue={billingCycle}
+          onCloseAction={() => closeBillingCycleModal()}
+          setPickerValue={itemValue => onValueChange(itemValue)}
+        />
+      </ScrollView>
+
+      <FooterButton
+        onPressAction={() => addSubscriptionsData()}
+        isDisabled={amount === ''}
+        label='Save'
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

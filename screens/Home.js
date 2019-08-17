@@ -43,8 +43,8 @@ export default function Home({ navigation }) {
           subscriptions.length < 1 && { marginBottom: 0 }
         ]}
         data={[...subscriptions]}
-        keyExtractor={item => item.key.toString()}
         ListEmptyComponent={EmptyList}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <SubscriptionRow
             onPressAction={() => this.openFormView(item)}
