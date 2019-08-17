@@ -7,7 +7,7 @@ export default function SubscriptionRow({ data, onPressAction }) {
       <Image style={styles.logo} source={data.logo} resizeMode={'contain'} />
       <View style={styles.subscriptionInfo}>
         <Text style={styles.name}>{data.name}</Text>
-        <Text style={styles.billingCycle}>Billed Monthly</Text>
+        <Text style={styles.billingCycle}>Billed {data.billingCycle}</Text>
       </View>
       <Text style={[styles.amount, data.amount >= 90 && styles.highAmount]}>
         ${data.amount}
