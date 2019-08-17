@@ -8,7 +8,6 @@ import {
   TextInput,
   ScrollView,
   Picker,
-  Modal,
   Dimensions,
   DatePickerIOS
 } from 'react-native';
@@ -16,9 +15,10 @@ import PageTitle from '../components/PageTitle';
 import FooterButton from '../components/FooterButton';
 import SettingsRow from '../components/SettingsRow';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Modal from 'react-native-modal';
+import Popover from '../components/Popover';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
-const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
 export default class FormView extends React.Component {
   static navigationOptions = {
@@ -102,6 +102,12 @@ export default class FormView extends React.Component {
     this.closeDatePicker();
   };
 
+  onValueChange = (itemValue, itemPosition) => {
+    this.setState({
+      billingCycle: itemValue
+    });
+  };
+
   render() {
     const {
       name,
@@ -150,63 +156,16 @@ export default class FormView extends React.Component {
             onCancel={() => this.closeDatePicker()}
           />
 
-          <Modal
-            animationType='fade'
-            transparent={true}
-            visible={showBillingCyclePicker}
-          >
-            <View style={styles.overlay}>
-              <View style={styles.popupView}>
-                <View style={styles.popupHeader}>
-                  <Text style={styles.popupTitle}>Select Billing Cycle</Text>
-                  <TouchableOpacity
-                    style={styles.closeView}
-                    onPress={() => {
-                      this.closeBillingCycleModal();
-                    }}
-                  >
-                    <Text>close</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.popupBody}>
-                  <Picker
-                    selectedValue={billingCycle}
-                    style={styles.pickerView}
-                    onValueChange={(itemValue, itemPosition) =>
-                      this.setState({
-                        billingCycle: itemValue
-                      })
-                    }
-                  >
-                    {billingCycleOptions.map((option, index) => {
-                      return (
-                        <Picker.Item
-                          key={index}
-                          label={option}
-                          value={option}
-                        />
-                      );
-                    })}
-                  </Picker>
-
-                  <TouchableOpacity
-                    onPress={() => this.closeBillingCycleModal()}
-                    style={styles.doneButton}
-                  >
-                    <Text style={styles.doneButtonText}>Done</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </Modal>
+          <Popover
+            isVisible={showBillingCyclePicker}
+            title='Billing Cycle'
+            pickerData={billingCycleOptions}
+            selectedPickerValue={billingCycle}
+            onCloseAction={() => this.closeBillingCycleModal()}
+            setPickerValue={itemValue => this.onValueChange(itemValue)}
+          />
         </ScrollView>
-        {console.log(
-          'amount type is',
-          typeof amount,
-          ' and amount is ',
-          amount
-        )}
+
         <FooterButton isDisabled={amount === ''} label='Save' />
       </View>
     );
@@ -266,12 +225,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'rgba(0,0,0,0.6)'
   },
-  overlay: {
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -286,72 +239,5 @@ const styles = StyleSheet.create({
   rowField: {
     fontSize: 16,
     color: 'rgba(0,0,0,0.6)'
-  },
-  popupView: {
-    width: SCREEN_WIDTH - 40,
-    marginBottom: 20,
-    height: 400,
-    backgroundColor: '#fff',
-    borderRadius: 10
-  },
-  popupHeader: {
-    flexDirection: 'row',
-    width: '100%',
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomColor: 'rgba(0,0,0,0.08)',
-    borderBottomWidth: 1
-  },
-  popupTitle: {
-    fontSize: 16,
-    fontWeight: '600'
-  },
-  closeView: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    backgroundColor: '#EDEDF0',
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  popupBody: {
-    flex: 1,
-    justifyContent: 'space-between'
-  },
-  selectionView: {
-    borderBottomColor: 'rgba(0,0,0,0.1)',
-    borderBottomWidth: 1,
-    width: '100%',
-    padding: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  selectionViewText: {
-    fontSize: 16,
-    lineHeight: 24
-  },
-  doneButton: {
-    backgroundColor: '#000',
-    height: 50,
-    width: 280,
-    marginHorizontal: 30,
-    marginVertical: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25
-  },
-  doneButtonText: {
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    color: '#fff'
-  },
-  pickerView: {
-    width: '100%',
-    flex: 1
   }
 });

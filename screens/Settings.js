@@ -15,6 +15,7 @@ import {
 import SettingsRow from '../components/SettingsRow';
 import Version from '../components/Version';
 import { Ionicons } from '@expo/vector-icons';
+import Popover from '../components/Popover';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -29,138 +30,36 @@ export default class Settings extends React.Component {
     selectedTotalType: '',
     openExpenseTypeSelection: false,
     supportedCurrencies: [
-      {
-        symbol: '$',
-        code: 'AUD'
-      },
-      {
-        symbol: 'лв.',
-        code: 'BGN'
-      },
-      {
-        symbol: 'R$',
-        code: 'BRL'
-      },
-      {
-        symbol: '$',
-        code: 'CAD'
-      },
-      {
-        symbol: 'CHF',
-        code: 'CHF'
-      },
-      {
-        symbol: 'CN¥',
-        code: 'CNY'
-      },
-      {
-        symbol: 'Kč',
-        code: 'CZK'
-      },
-      {
-        symbol: 'kr',
-        code: 'DKK'
-      },
-      {
-        symbol: '€',
-        code: 'EUR'
-      },
-      {
-        symbol: '£',
-        code: 'GBP'
-      },
-      {
-        symbol: '$',
-        code: 'HKD'
-      },
-      {
-        symbol: 'kn',
-        code: 'HRK'
-      },
-      {
-        symbol: 'Ft',
-        code: 'HUF'
-      },
-      {
-        symbol: 'Rp',
-        code: 'IDR'
-      },
-      {
-        symbol: '₪',
-        code: 'ILS'
-      },
-      {
-        symbol: '₹',
-        code: 'INR'
-      },
-      {
-        symbol: 'kr',
-        code: 'ISK'
-      },
-      {
-        symbol: '￥',
-        code: 'JPY'
-      },
-      {
-        symbol: '₩',
-        code: 'KRW'
-      },
-      {
-        symbol: '$',
-        code: 'MXN'
-      },
-      {
-        symbol: 'RM',
-        code: 'MYR'
-      },
-      {
-        symbol: 'kr',
-        code: 'NOK'
-      },
-      {
-        symbol: '$',
-        code: 'NZD'
-      },
-      {
-        symbol: '₱',
-        code: 'PHP'
-      },
-      {
-        symbol: 'zł',
-        code: 'PLN'
-      },
-      {
-        symbol: 'RON',
-        code: 'RON'
-      },
-      {
-        symbol: 'руб.',
-        code: 'RUB'
-      },
-      {
-        symbol: 'kr',
-        code: 'SEK'
-      },
-      {
-        symbol: '$',
-        code: 'SGD'
-      },
-      {
-        symbol: '฿',
-        code: 'THB'
-      },
-      {
-        symbol: 'TL',
-        code: 'TRY'
-      },
-      {
-        symbol: '$',
-        code: 'USD'
-      },
-      {
-        symbol: 'R',
-        code: 'ZAR'
-      }
+      'AUD ($)',
+      'BGN (лв)',
+      'BRL (R$)',
+      'CAD ($)',
+      'CHF',
+      'CNY (¥)',
+      'CZK (Kč)',
+      'DKK (kr)',
+      'EUR (€)',
+      'GBP (£)',
+      'HKD ($)',
+      'ILS (₪)',
+      'INR (₹)',
+      'ISK (kr)',
+      'JPY (￥)',
+      'KRW (₩)',
+      'MXN ($)',
+      'MYR (RM)',
+      'NOK (kr)',
+      'NZD ($)',
+      'PHP (P)',
+      'PLN (zł)',
+      'RON',
+      'RUB (руб)',
+      'SEK (kr)',
+      'SGD ($)',
+      'THB (฿)',
+      'TRY (Tl)',
+      'USD ($)',
+      'ZAR (R)'
     ],
     selectedCurrency: '',
     openCurrencySelection: false,
@@ -174,9 +73,7 @@ export default class Settings extends React.Component {
   componentDidMount() {
     this.setState({
       selectedTotalType: this.state.totalType[0],
-      selectedCurrency: `${this.state.supportedCurrencies[0].code} (${
-        this.state.supportedCurrencies[0].symbol
-      })`,
+      selectedCurrency: this.state.supportedCurrencies[0],
       selectedSortType: this.state.availableSortType[0]
     });
   }
@@ -185,21 +82,21 @@ export default class Settings extends React.Component {
     this.props.navigation.push('About');
   };
 
-  openModal = () => {
+  openExpenseTypeSelectionModal = () => {
     this.setState({
       openExpenseTypeSelection: true
     });
   };
 
-  closeModal = () => {
+  closeExpenseTypeSelectionModal = () => {
     this.setState({
       openExpenseTypeSelection: false
     });
   };
 
-  setSelectedTotalType = type => {
+  onTotalTypeChange = (itemValue, itemPosition) => {
     this.setState({
-      selectedTotalType: type
+      selectedTotalType: itemValue
     });
   };
 
@@ -215,6 +112,12 @@ export default class Settings extends React.Component {
     });
   };
 
+  onCurrencyChange = (item, itemPosition) => {
+    this.setState({
+      selectedCurrency: item
+    });
+  };
+
   openSortTypeSelectionModal = () => {
     this.setState({
       openSortTypeSelection: true
@@ -224,6 +127,12 @@ export default class Settings extends React.Component {
   closeSortTypeSelectionModal = () => {
     this.setState({
       openSortTypeSelection: false
+    });
+  };
+
+  onSortTypeChange = (item, itemPosition) => {
+    this.setState({
+      selectedSortType: item
     });
   };
 
@@ -256,198 +165,32 @@ export default class Settings extends React.Component {
 
     return (
       <View style={styles.settingsWrapper}>
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={openExpenseTypeSelection}
-        >
-          <View style={styles.overlay}>
-            <View style={styles.popupView}>
-              <View style={styles.popupHeader}>
-                <Text style={styles.popupTitle}>View Total as</Text>
-                <TouchableOpacity
-                  style={styles.closeView}
-                  onPress={() => {
-                    this.closeModal();
-                  }}
-                >
-                  <Text>close</Text>
-                </TouchableOpacity>
-              </View>
+        <Popover
+          isVisible={openExpenseTypeSelection}
+          title='View Total as'
+          pickerData={totalType}
+          selectedPickerValue={selectedTotalType}
+          onCloseAction={() => this.closeExpenseTypeSelectionModal()}
+          setPickerValue={itemValue => this.onTotalTypeChange(itemValue)}
+        />
 
-              <View style={styles.popupBody}>
-                <View>
-                  {totalType.map((type, index) => {
-                    return (
-                      <TouchableOpacity
-                        key={index}
-                        style={styles.selectionView}
-                        onPress={() => this.setSelectedTotalType(type)}
-                      >
-                        <Text style={styles.selectionViewText}>{type}</Text>
+        <Popover
+          isVisible={openCurrencySelection}
+          title='Set default currency'
+          pickerData={supportedCurrencies}
+          selectedPickerValue={selectedCurrency}
+          onCloseAction={() => this.closeCurrencyModal()}
+          setPickerValue={itemValue => this.onCurrencyChange(itemValue)}
+        />
 
-                        <Ionicons
-                          style={styles.selectedIcon}
-                          name='ios-checkmark'
-                          size={30}
-                          color={selectedTotalType === type ? '#000' : '#fff'}
-                        />
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-
-                <TouchableOpacity
-                  onPress={() => this.closeModal()}
-                  style={styles.doneButton}
-                >
-                  <Text style={styles.doneButtonText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={openCurrencySelection}
-        >
-          <View style={styles.overlay}>
-            <View style={styles.popupView}>
-              <View style={styles.popupHeader}>
-                <Text style={styles.popupTitle}>View Total as</Text>
-                <TouchableOpacity
-                  style={styles.closeView}
-                  onPress={() => {
-                    this.closeCurrencyModal();
-                  }}
-                >
-                  <Text>close</Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.popupBody}>
-                <Picker
-                  selectedValue={selectedCurrency}
-                  style={styles.pickerView}
-                  onValueChange={(itemValue, itemPosition) =>
-                    this.setState({
-                      selectedCurrency: itemValue
-                    })
-                  }
-                >
-                  {supportedCurrencies.map(currency => {
-                    return (
-                      <Picker.Item
-                        key={currency.code}
-                        label={`${currency.code} (${currency.symbol})`}
-                        value={`${currency.code} (${currency.symbol})`}
-                      />
-                    );
-                  })}
-                </Picker>
-
-                <TouchableOpacity
-                  onPress={() => this.closeCurrencyModal()}
-                  style={styles.doneButton}
-                >
-                  <Text style={styles.doneButtonText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={openSortTypeSelection}
-        >
-          <View style={styles.overlay}>
-            <View style={styles.popupView}>
-              <View style={styles.popupHeader}>
-                <Text style={styles.popupTitle}>View Total as</Text>
-                <TouchableOpacity
-                  style={styles.closeView}
-                  onPress={() => {
-                    this.closeSortTypeSelectionModal();
-                  }}
-                >
-                  <Text>close</Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.popupBody}>
-                <Picker
-                  selectedValue={selectedSortType}
-                  style={styles.pickerView}
-                  onValueChange={(itemValue, itemPosition) =>
-                    this.setState({
-                      selectedSortType: itemValue
-                    })
-                  }
-                >
-                  {availableSortType.map((type, index) => {
-                    return (
-                      <Picker.Item key={index} label={type} value={type} />
-                    );
-                  })}
-                </Picker>
-
-                <TouchableOpacity
-                  onPress={() => this.closeSortTypeSelectionModal()}
-                  style={styles.doneButton}
-                >
-                  <Text style={styles.doneButtonText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={openHighAlertAmountView}
-        >
-          <View style={styles.overlay}>
-            <View style={styles.popupView}>
-              <View style={styles.popupHeader}>
-                <Text style={styles.popupTitle}>View Total as</Text>
-                <TouchableOpacity
-                  style={styles.closeView}
-                  onPress={() => {
-                    this.closeHighAlertAmountModal();
-                  }}
-                >
-                  <Text>close</Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.popupBody}>
-                <TextInput
-                  allowFontScaling={true}
-                  returnKeyType='done'
-                  autoFocus={true}
-                  keyboardType={'numeric'}
-                  onChangeText={highAlertAmount =>
-                    this.setState({ highAlertAmount })
-                  }
-                  value={highAlertAmount}
-                  style={styles.amountField}
-                />
-
-                <TouchableOpacity
-                  onPress={() => this.closeHighAlertAmountModal()}
-                  style={styles.doneButton}
-                >
-                  <Text style={styles.doneButtonText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        <Popover
+          isVisible={openSortTypeSelection}
+          title='Set Sort type'
+          pickerData={availableSortType}
+          selectedPickerValue={selectedSortType}
+          onCloseAction={() => this.closeSortTypeSelectionModal()}
+          setPickerValue={itemValue => this.onSortTypeChange(itemValue)}
+        />
 
         <View style={styles.pageHeader}>
           <Text style={styles.pageTitle}>Preferences</Text>
@@ -456,7 +199,7 @@ export default class Settings extends React.Component {
           <ScrollView style={styles.settingsList}>
             <SettingsRow
               title='View Total as'
-              onPressAction={() => this.openModal()}
+              onPressAction={() => this.openExpenseTypeSelectionModal()}
               defaultValue={selectedTotalType}
             />
             <SettingsRow
@@ -474,10 +217,13 @@ export default class Settings extends React.Component {
               <Text style={styles.rowLabel}>High Alert Amount</Text>
               <TextInput
                 allowFontScaling={true}
+                maxLength={3}
                 returnKeyType='done'
                 keyboardType={'numeric'}
                 onChangeText={highAlertAmount =>
-                  this.setState({ highAlertAmount })
+                  this.setState({
+                    highAlertAmount
+                  })
                 }
                 value={highAlertAmount}
                 style={styles.rowField}
@@ -537,84 +283,9 @@ const styles = StyleSheet.create({
   },
   rowField: {
     fontSize: 16,
-    color: 'rgba(0,0,0,0.6)'
-  },
-  popupView: {
-    width: SCREEN_WIDTH - 40,
-    marginBottom: 20,
-    height: 400,
-    backgroundColor: '#fff',
-    borderRadius: 10
-  },
-  popupHeader: {
-    flexDirection: 'row',
-    width: '100%',
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomColor: 'rgba(0,0,0,0.08)',
-    borderBottomWidth: 1
-  },
-  popupTitle: {
-    fontSize: 16,
-    fontWeight: '600'
-  },
-  closeView: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    backgroundColor: '#EDEDF0',
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  popupBody: {
+    color: 'rgba(0,0,0,0.6)',
+    textAlign: 'right',
     flex: 1,
-    justifyContent: 'space-between'
-  },
-  selectionView: {
-    borderBottomColor: 'rgba(0,0,0,0.1)',
-    borderBottomWidth: 1,
-    width: '100%',
-    padding: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  selectionViewText: {
-    fontSize: 16,
-    lineHeight: 24
-  },
-  doneButton: {
-    backgroundColor: '#000',
-    height: 50,
-    width: 280,
-    marginHorizontal: 30,
-    marginVertical: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25
-  },
-  doneButtonText: {
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    color: '#fff'
-  },
-  pickerView: {
-    width: '100%',
-    flex: 1
-  },
-  amountField: {
-    width: 280,
-    height: 50,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
-    fontSize: 20,
-    textAlign: 'center',
-    marginHorizontal: 30,
-    marginVertical: 30
+    marginLeft: 10
   }
 });
