@@ -21,7 +21,10 @@ const HomeStack = createStackNavigator(
     FormView
   },
   {
-    mode: 'modal'
+    mode: 'modal',
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 
@@ -36,6 +39,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
   return {
     tabBarVisible,
     tabBarLabel: 'Subscriptions',
+
     tabBarIcon: ({ focused }) => (
       <Ionicons
         name='ios-albums'

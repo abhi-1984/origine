@@ -2,21 +2,28 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function HeaderView({ openAddSubscriptionView }) {
+export default function HeaderView({
+  subscriptionsCount,
+  openAddSubscriptionView
+}) {
   return (
     <View style={styles.headerView}>
       <View style={styles.headerInfo}>
         <Text style={styles.headerTitle}>Subscriptions</Text>
-        <Text style={styles.headerSubtitle}>Avg. Expenses $45.00/mo</Text>
+        {subscriptionsCount >= 1 && (
+          <Text style={styles.headerSubtitle}>Avg. Expenses $45.00/mo</Text>
+        )}
       </View>
-      <TouchableOpacity onPress={openAddSubscriptionView}>
-        <Ionicons
-          style={styles.headerIcon}
-          name='ios-add-circle'
-          size={30}
-          color='black'
-        />
-      </TouchableOpacity>
+      {subscriptionsCount >= 1 && (
+        <TouchableOpacity onPress={openAddSubscriptionView}>
+          <Ionicons
+            style={styles.headerIcon}
+            name='ios-add-circle'
+            size={30}
+            color='black'
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

@@ -6,13 +6,20 @@ import About from './screens/About';
 import AddSubscription from './screens/AddSubscription';
 import FormView from './screens/FormView';
 import AppNavigator from './navigator/AppNavigator';
+import { createStore } from 'redux';
+import rootReducer from './reducers';
+import { Provider } from 'react-redux';
+
+const store = createStore(rootReducer);
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.SafeAreaView}>
-          <AppNavigator />
+          <Provider store={store}>
+            <AppNavigator />
+          </Provider>
         </SafeAreaView>
       </View>
     );
