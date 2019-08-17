@@ -131,6 +131,7 @@ export default class FormView extends React.Component {
           <Text style={styles.name}>{name}</Text>
           <TextInput
             allowFontScaling={true}
+            placeholder='Amount'
             returnKeyType='done'
             keyboardType={'numeric'}
             onChangeText={amount => this.setState({ amount })}
