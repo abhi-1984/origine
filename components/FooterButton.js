@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function FooterButton({ label, onPressAction }) {
+export default function FooterButton({ label, onPressAction, isDisabled }) {
   return (
-    <TouchableOpacity onPress={onPressAction} style={styles.footerButton}>
+    <TouchableOpacity
+      disabled={isDisabled}
+      onPress={onPressAction}
+      style={styles.footerButton}
+    >
       <Text style={styles.footerButtonText}>{label}</Text>
     </TouchableOpacity>
   );

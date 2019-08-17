@@ -29,8 +29,8 @@ export default class FormView extends React.Component {
     pageData: {},
     name: '',
     logo: null,
-    amount: '0',
-    firstBillDate: null,
+    amount: null,
+    firstBillDate: '',
     billingCycle: 'Monthly',
     showBillingCyclePicker: false,
     billingCycleOptions: [
@@ -50,6 +50,7 @@ export default class FormView extends React.Component {
       name: pageData.name,
       logo: pageData.logo,
       amount: pageData.amount,
+      firstBillDate: this.formatDate(new Date()),
       billingCycle: pageData.billingCycle
     });
   }
@@ -86,7 +87,7 @@ export default class FormView extends React.Component {
     let currentDate = selectedDate;
 
     var date = currentDate.getDate();
-    var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+    var month = currentDate.getMonth();
     var year = currentDate.getFullYear();
 
     let finalDate = date + '-' + (month + 1) + '-' + year;
@@ -127,7 +128,6 @@ export default class FormView extends React.Component {
             returnKeyType='done'
             keyboardType={'numeric'}
             onChangeText={amount => this.setState({ amount })}
-            placeholder={amount && amount.toString()}
             style={styles.amountField}
           />
           <SettingsRow
@@ -144,6 +144,7 @@ export default class FormView extends React.Component {
           />
 
           <DateTimePicker
+            confirmTextIOS='Done'
             isVisible={showFirstBillDatePicker}
             onConfirm={date => this.handleDatePicked(this.formatDate(date))}
             onCancel={() => this.closeDatePicker()}
@@ -200,7 +201,13 @@ export default class FormView extends React.Component {
             </View>
           </Modal>
         </ScrollView>
-        <FooterButton label='Save' />
+        {console.log(
+          'amount type is',
+          typeof amount,
+          ' and amount is ',
+          amount
+        )}
+        <FooterButton isDisabled={amount === ''} label='Save' />
       </View>
     );
   }
