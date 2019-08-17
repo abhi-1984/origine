@@ -8,21 +8,33 @@ import HeaderView from '../components/HeaderView';
 import EmptyList from '../components/EmptyList';
 
 export default function Home({ navigation }) {
-  //Navigation
-  handleAddSubscriptionView = () => {
-    navigation.push('AddSubscription');
-  };
-
-  openFormView = item => {
-    navigation.navigate('FormView', { pageData: item });
-  };
-
   //Redux
   const subscriptionsData = useSelector(state => state.subscriptionsReducer);
 
   //State
   const [subscriptions, setSubscriptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
+
+  //Navigation
+  handleAddSubscriptionView = () => {
+    navigation.push('AddSubscription');
+  };
+
+  prepareForSendingData = item => {
+    return {
+      pageTitle: 'Edit Subscription',
+      name: item.name,
+      logo: item.logo,
+      amount: item.amount,
+      firstBillDate: item.firstBillDate,
+      billingCycle: item.billingCycle,
+      mode: 'edit'
+    };
+  };
+
+  openFormView = item => {
+    navigation.navigate('FormView', { pageData: prepareForSendingData(item) });
+  };
 
   //useEffect
   useEffect(() => {
@@ -31,7 +43,6 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.homeWrapper}>
-      {console.log('subscriptions>>>', subscriptions)}
       <HeaderView
         subscriptionsCount={subscriptions.length}
         openAddSubscriptionView={() => this.handleAddSubscriptionView()}

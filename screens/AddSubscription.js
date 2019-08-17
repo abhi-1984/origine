@@ -27,7 +27,8 @@ export default class AddSubscription extends React.Component {
       logo: item.logo,
       amount: '0',
       firstBillDate: 'Aug 17, 2019',
-      billingCycle: 'Monthly'
+      billingCycle: 'Monthly',
+      mode: 'add'
     };
   };
 

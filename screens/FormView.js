@@ -26,7 +26,7 @@ export default function FormView({ navigation }) {
   const dispatch = useDispatch();
 
   //state
-  const [pageData, setPageData] = useState({});
+  const [isEditview, setEditView] = useState(null);
   const [name, setName] = useState('');
   const [logo, setLogo] = useState(null);
   const [amount, setAmount] = useState(null);
@@ -48,8 +48,11 @@ export default function FormView({ navigation }) {
     setName(pageData.name);
     setLogo(pageData.logo);
     setAmount(pageData.amount);
-    setFirstBillDate(formatDate(new Date()));
+    setFirstBillDate(pageData.firstBillDate);
     setBillingCycle(pageData.billingCycle);
+    setEditView(pageData.mode);
+
+    console.log('page data is>>>>', pageData);
   }, []);
 
   openDatePicker = () => {
@@ -93,24 +96,12 @@ export default function FormView({ navigation }) {
   };
 
   addSubscriptionsData = () => {
-    console.log(
-      'name: ',
-      name,
-      ' and logo is ',
-      logo,
-      ' and amount is ',
-      amount,
-      ' with billing cycle of ',
-      billingCycle,
-      ' and first bill date is ',
-      firstBillDate
-    );
-
     const data = {
       name: name,
       logo: logo,
       amount: amount,
-      billingCycle: billingCycle
+      billingCycle: billingCycle,
+      firstBillDate: firstBillDate
     };
 
     dispatch(setSubscriptionsData(data));
@@ -121,7 +112,9 @@ export default function FormView({ navigation }) {
     <View style={styles.formView}>
       <PageTitle
         goBack={() => this.openPreviousScreen()}
-        label={'Add Subscription'}
+        label={
+          isEditview === 'edit' ? `${name} Subscription` : 'Add Subscription'
+        }
       />
       <ScrollView contentContainerStyle={styles.formWrapper}>
         <Image style={styles.logo} source={logo} />
@@ -129,6 +122,7 @@ export default function FormView({ navigation }) {
         <TextInput
           allowFontScaling={true}
           placeholder='Amount'
+          value={amount > 0 ? amount : ''}
           returnKeyType='done'
           keyboardType={'numeric'}
           onChangeText={amount => setAmount(amount)}
@@ -167,7 +161,7 @@ export default function FormView({ navigation }) {
       <FooterButton
         onPressAction={() => addSubscriptionsData()}
         isDisabled={amount === ''}
-        label='Save'
+        label={isEditview === 'edit' ? 'Save Changes' : 'save'}
       />
     </View>
   );
