@@ -26,7 +26,7 @@ export default function FormView({ navigation }) {
   const dispatch = useDispatch();
 
   //state
-  const [isEditview, setEditView] = useState(null);
+  const [mode, setMode] = useState(null);
   const [name, setName] = useState('');
   const [logo, setLogo] = useState(null);
   const [amount, setAmount] = useState(null);
@@ -50,10 +50,7 @@ export default function FormView({ navigation }) {
     setAmount(pageData.amount);
     setFirstBillDate(pageData.firstBillDate);
     setBillingCycle(pageData.billingCycle);
-    setEditView(pageData.mode);
-
-    console.log('page data is>>>>', pageData);
-    console.log('index is>>>>', pageData.index);
+    setMode(pageData.mode);
   }, []);
 
   openDatePicker = () => {
@@ -113,9 +110,7 @@ export default function FormView({ navigation }) {
     <View style={styles.formView}>
       <PageTitle
         goBack={() => this.openPreviousScreen()}
-        label={
-          isEditview === 'edit' ? `${name} Subscription` : 'Add Subscription'
-        }
+        label={mode === 'edit' ? `Edit Subscription` : 'Add Subscription'}
       />
       <ScrollView contentContainerStyle={styles.formWrapper}>
         <Image style={styles.logo} source={logo} />
@@ -157,12 +152,20 @@ export default function FormView({ navigation }) {
           onCloseAction={() => closeBillingCycleModal()}
           setPickerValue={itemValue => onValueChange(itemValue)}
         />
+
+        {mode === 'edit' && (
+          <View style={styles.deleteActionRow}>
+            <TouchableOpacity style={styles.deleteAction}>
+              <Text style={styles.deleteActionText}>Remove Subscription</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
 
       <FooterButton
         onPressAction={() => addSubscriptionsData()}
         isDisabled={amount === ''}
-        label={isEditview === 'edit' ? 'Save Changes' : 'save'}
+        label={mode === 'edit' ? 'Save Changes' : 'save'}
       />
     </View>
   );
@@ -235,5 +238,15 @@ const styles = StyleSheet.create({
   rowField: {
     fontSize: 16,
     color: 'rgba(0,0,0,0.6)'
+  },
+  deleteActionRow: {
+    paddingHorizontal: 30,
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  deleteActionText: {
+    color: '#DD1F2A',
+    fontSize: 16
   }
 });

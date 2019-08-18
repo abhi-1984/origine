@@ -56,7 +56,6 @@ export default function Home({ navigation }) {
         subscriptionsCount={subscriptionsData.length}
         openAddSubscriptionView={() => this.handleAddSubscriptionView()}
       />
-      {console.log('subscriptions are>>>', subscriptionsData)}
       <FlatList
         contentContainerStyle={[
           styles.listView,
