@@ -5,63 +5,36 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Modal,
-  Dimensions,
-  TouchableOpacity,
-  Picker,
   TextInput,
   KeyboardAvoidingView
 } from 'react-native';
 import SettingsRow from '../components/SettingsRow';
 import Version from '../components/Version';
-import { Ionicons } from '@expo/vector-icons';
 import Popover from '../components/Popover';
-
-const SCREEN_WIDTH = Dimensions.get('screen').width;
-const SCREEN_HEIGHT = Dimensions.get('screen').height;
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setSelectedCurrencyData,
+  setDefaultTotalTypeData,
+  setDefaultSortTypeData,
+  setDefaultHighAlertAmountData
+} from '../actions';
 
 export default function Settings({ navigation }) {
+  //REDUX
+  const currencyData = useSelector(state => state.currencyReducer);
+  const dispatch = useDispatch();
+
+  //LOCAL STATE
   const [totalType, setTotalType] = useState([
     'Avg. Expenses',
     'Total Expenses'
   ]);
   const [selectedTotalType, setSelectedTotalType] = useState('');
   const [isExpenseTypeSelection, setExpenseTypeSelection] = useState(false);
-  const [currencies, setCurrencies] = useState([
-    'AUD ($)',
-    'BGN (лв)',
-    'BRL (R$)',
-    'CAD ($)',
-    'CHF',
-    'CNY (¥)',
-    'CZK (Kč)',
-    'DKK (kr)',
-    'EUR (€)',
-    'GBP (£)',
-    'HKD ($)',
-    'ILS (₪)',
-    'INR (₹)',
-    'ISK (kr)',
-    'JPY (￥)',
-    'KRW (₩)',
-    'MXN ($)',
-    'MYR (RM)',
-    'NOK (kr)',
-    'NZD ($)',
-    'PHP (P)',
-    'PLN (zł)',
-    'RON',
-    'RUB (руб)',
-    'SEK (kr)',
-    'SGD ($)',
-    'THB (฿)',
-    'TRY (Tl)',
-    'USD ($)',
-    'ZAR (R)'
-  ]);
+  const [currencies, setCurrencies] = useState([]);
 
   const [isCurrencySelection, setCurrencySelection] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState('');
+  const [selectedCurrency, setSelectedCurrency] = useState('USD ($)');
   const [sortType, setSortType] = useState([
     'Max. Amount',
     'Min. Amount',
@@ -74,8 +47,8 @@ export default function Settings({ navigation }) {
 
   useEffect(() => {
     setSelectedTotalType(totalType[0]);
-    setSelectedCurrency(currencies[0]);
     setSelectedSortType(sortType[0]);
+    setCurrencies([...currencyData]);
   }, []);
 
   openAboutScreen = () => {
@@ -86,7 +59,10 @@ export default function Settings({ navigation }) {
     setExpenseTypeSelection(true);
   };
 
-  closeExpenseTypeSelectionModal = () => {
+  closeExpenseTypeSelectionModal = item => {
+    if (item) {
+      dispatch(setDefaultTotalTypeData(item));
+    }
     setExpenseTypeSelection(false);
   };
 
@@ -98,7 +74,10 @@ export default function Settings({ navigation }) {
     setCurrencySelection(true);
   };
 
-  closeCurrencyModal = () => {
+  closeCurrencyModal = item => {
+    if (item) {
+      dispatch(setSelectedCurrencyData(item));
+    }
     setCurrencySelection(false);
   };
 
@@ -110,7 +89,10 @@ export default function Settings({ navigation }) {
     setSortTypeSelection(true);
   };
 
-  closeSortTypeSelectionModal = () => {
+  closeSortTypeSelectionModal = item => {
+    if (item) {
+      dispatch(setDefaultSortTypeData(item));
+    }
     setSortTypeSelection(false);
   };
 
@@ -133,7 +115,7 @@ export default function Settings({ navigation }) {
         title='View Total as'
         pickerData={totalType}
         selectedPickerValue={selectedTotalType}
-        onCloseAction={() => closeExpenseTypeSelectionModal()}
+        onCloseAction={() => closeExpenseTypeSelectionModal(selectedTotalType)}
         setPickerValue={itemValue => onTotalTypeChange(itemValue)}
       />
 
@@ -142,7 +124,7 @@ export default function Settings({ navigation }) {
         title='Set default currency'
         pickerData={currencies}
         selectedPickerValue={selectedCurrency}
-        onCloseAction={() => closeCurrencyModal()}
+        onCloseAction={() => closeCurrencyModal(selectedCurrency)}
         setPickerValue={itemValue => onCurrencyChange(itemValue)}
       />
 
@@ -151,7 +133,7 @@ export default function Settings({ navigation }) {
         title='Set Sort type'
         pickerData={sortType}
         selectedPickerValue={selectedSortType}
-        onCloseAction={() => closeSortTypeSelectionModal()}
+        onCloseAction={() => closeSortTypeSelectionModal(selectedSortType)}
         setPickerValue={itemValue => onSortTypeChange(itemValue)}
       />
 
@@ -183,9 +165,10 @@ export default function Settings({ navigation }) {
               maxLength={5}
               returnKeyType='done'
               keyboardType={'numeric'}
-              onChangeText={highAlertAmount =>
-                setHighAlertAmount(highAlertAmount)
-              }
+              onChangeText={highAlertAmount => {
+                setHighAlertAmount(highAlertAmount);
+                dispatch(setDefaultHighAlertAmountData(highAlertAmount));
+              }}
               value={highAlertAmount}
               style={styles.rowField}
             />

@@ -10,6 +10,16 @@ import EmptyList from '../components/EmptyList';
 export default function Home({ navigation }) {
   //Redux
   const subscriptionsData = useSelector(state => state.subscriptionsReducer);
+  const defaultCurrencyData = useSelector(
+    state => state.setDefaultCurrencyReducer
+  );
+  const defaultTotalType = useSelector(
+    state => state.setDefaultTotalTypeReducer
+  );
+  const defaultSortType = useSelector(state => state.setDefaultSortTypeReducer);
+  const defaultHighAlertAmount = useSelector(
+    state => state.setDefaultHighAlertAmountReducer
+  );
 
   //State
   const [subscriptions, setSubscriptions] = useState([]);
@@ -49,7 +59,18 @@ export default function Home({ navigation }) {
         subscriptionsCount={subscriptions.length}
         openAddSubscriptionView={() => this.handleAddSubscriptionView()}
       />
-      {console.log('subscriptions are>>>', subscriptions)}
+      {console.log(
+        'subscriptions are>>>',
+        subscriptions,
+        'and default currency is ',
+        defaultCurrencyData,
+        ' and default total type is ',
+        defaultTotalType,
+        'and default sort type is',
+        defaultSortType,
+        'and default high alert amount is ',
+        defaultHighAlertAmount
+      )}
       <FlatList
         contentContainerStyle={[
           styles.listView,

@@ -23,8 +23,9 @@ export default function Popover({
     <Modal
       onBackdropPress={onCloseAction}
       onSwipeComplete={onCloseAction}
-      swipeDirection={['up', 'left', 'right', 'down']}
+      swipeDirection={['up', 'down']}
       isVisible={isVisible}
+      hideModalContentWhileAnimating={true}
       style={styles.bottomModal}
     >
       <View style={styles.popupView}>

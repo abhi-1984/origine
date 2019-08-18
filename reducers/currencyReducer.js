@@ -31,13 +31,13 @@ const initialData = [
   'ZAR (R)'
 ];
 
-const subscriptionsReducer = (state = initialData, action) => {
+const currencyReducer = (state = initialData, action) => {
   switch (action.type) {
-    case 'SET_CURRENCY_DATA':
-      return state[0];
+    case 'GET_CURRENCY_DATA':
+      return state;
     default:
       return state;
   }
 };
 
-export default subscriptionsReducer;
+export default currencyReducer;
