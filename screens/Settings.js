@@ -61,21 +61,6 @@ export default function Settings({ navigation }) {
     setSelectedCurrency(item);
   };
 
-  openSortTypeSelectionModal = () => {
-    setSortTypeSelection(true);
-  };
-
-  closeSortTypeSelectionModal = item => {
-    if (item) {
-      dispatch(setDefaultSortTypeData(item));
-    }
-    setSortTypeSelection(false);
-  };
-
-  onSortTypeChange = (item, itemPosition) => {
-    setSelectedSortType(item);
-  };
-
   closeHighAlertAmountModal = () => {
     setHighAlertAmountView(false);
   };
@@ -95,15 +80,6 @@ export default function Settings({ navigation }) {
         setPickerValue={itemValue => onCurrencyChange(itemValue)}
       />
 
-      <Popover
-        isVisible={isSortTypeSelection}
-        title='Set Sort type'
-        pickerData={sortType}
-        selectedPickerValue={selectedSortType}
-        onCloseAction={() => closeSortTypeSelectionModal(selectedSortType)}
-        setPickerValue={itemValue => onSortTypeChange(itemValue)}
-      />
-
       <View style={styles.pageHeader}>
         <Text style={styles.pageTitle}>Preferences</Text>
       </View>
@@ -113,11 +89,6 @@ export default function Settings({ navigation }) {
             title='Default Currency'
             defaultValue={selectedCurrency}
             onPressAction={() => openCurrencyModal()}
-          />
-          <SettingsRow
-            title='Sort Subscription'
-            defaultValue={selectedSortType}
-            onPressAction={() => openSortTypeSelectionModal()}
           />
 
           <View style={styles.row}>

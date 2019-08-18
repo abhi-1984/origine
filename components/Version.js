@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10
+    paddingVertical: 15
   },
   versionNumber: {
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 14,
+    lineHeight: 20,
     opacity: 0.3
   }
 });

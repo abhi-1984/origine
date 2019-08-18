@@ -95,7 +95,6 @@ export default class AddSubscription extends React.Component {
 
   componentDidMount() {
     let pageData = this.props.navigation.getParam('subscriptionsAdded', []);
-    console.log('already added subscriptions are>>>>', pageData);
 
     let newArray = this.state.subscriptions.filter(
       o => !pageData.find(o2 => o.name === o2.name)

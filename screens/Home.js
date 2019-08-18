@@ -8,31 +8,10 @@ import EmptyList from '../components/EmptyList';
 export default function Home({ navigation }) {
   //Redux
   const subscriptionsData = useSelector(state => state.subscriptionsReducer);
-  const defaultCurrencyData = useSelector(
-    state => state.setDefaultCurrencyReducer
-  );
   const defaultSortType = useSelector(state => state.setDefaultSortTypeReducer);
-  const defaultHighAlertAmount = useSelector(
-    state => state.setDefaultHighAlertAmountReducer
-  );
 
   //State
   const [subscriptions, setSubscriptions] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-
-  getAlphabeticallySortedData = list => {
-    const sortedData = list.sort((a, b) =>
-      a.name > b.name
-        ? 1
-        : a.name === b.name
-        ? a.amount > b.amount
-          ? 1
-          : -1
-        : -1
-    );
-
-    return sortedData;
-  };
 
   //Navigation
   handleAddSubscriptionView = () => {
@@ -58,14 +37,8 @@ export default function Home({ navigation }) {
   };
 
   openFormView = item => {
-    console.log('item is>>>', item);
     navigation.navigate('FormView', { pageData: prepareForSendingData(item) });
   };
-
-  //useEffect
-  useEffect(() => {
-    setSubscriptions(subscriptionsData);
-  }, [subscriptions]);
 
   return (
     <View style={styles.homeWrapper}>
@@ -78,9 +51,7 @@ export default function Home({ navigation }) {
           styles.listView,
           subscriptionsData.length < 1 && { marginBottom: 0 }
         ]}
-        data={[
-          ...getAlphabeticallySortedData(subscriptionsData, 'Alphabetical')
-        ]}
+        data={[...subscriptionsData]}
         ListEmptyComponent={EmptyList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
