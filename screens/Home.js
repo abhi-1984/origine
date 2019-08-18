@@ -20,6 +20,20 @@ export default function Home({ navigation }) {
   const [subscriptions, setSubscriptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
+  getAlphabeticallySortedData = list => {
+    const sortedData = list.sort((a, b) =>
+      a.name > b.name
+        ? 1
+        : a.name === b.name
+        ? a.amount > b.amount
+          ? 1
+          : -1
+        : -1
+    );
+
+    return sortedData;
+  };
+
   //Navigation
   handleAddSubscriptionView = () => {
     navigation.push('AddSubscription', {
@@ -64,7 +78,9 @@ export default function Home({ navigation }) {
           styles.listView,
           subscriptionsData.length < 1 && { marginBottom: 0 }
         ]}
-        data={[...subscriptionsData]}
+        data={[
+          ...getAlphabeticallySortedData(subscriptionsData, 'Alphabetical')
+        ]}
         ListEmptyComponent={EmptyList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
