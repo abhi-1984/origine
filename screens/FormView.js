@@ -53,6 +53,7 @@ export default function FormView({ navigation }) {
     setEditView(pageData.mode);
 
     console.log('page data is>>>>', pageData);
+    console.log('index is>>>>', pageData.index);
   }, []);
 
   openDatePicker = () => {

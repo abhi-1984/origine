@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   View,
@@ -20,228 +20,188 @@ import Popover from '../components/Popover';
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
-export default class Settings extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+export default function Settings({ navigation }) {
+  const [totalType, setTotalType] = useState([
+    'Avg. Expenses',
+    'Total Expenses'
+  ]);
+  const [selectedTotalType, setSelectedTotalType] = useState('');
+  const [isExpenseTypeSelection, setExpenseTypeSelection] = useState(false);
+  const [currencies, setCurrencies] = useState([
+    'AUD ($)',
+    'BGN (лв)',
+    'BRL (R$)',
+    'CAD ($)',
+    'CHF',
+    'CNY (¥)',
+    'CZK (Kč)',
+    'DKK (kr)',
+    'EUR (€)',
+    'GBP (£)',
+    'HKD ($)',
+    'ILS (₪)',
+    'INR (₹)',
+    'ISK (kr)',
+    'JPY (￥)',
+    'KRW (₩)',
+    'MXN ($)',
+    'MYR (RM)',
+    'NOK (kr)',
+    'NZD ($)',
+    'PHP (P)',
+    'PLN (zł)',
+    'RON',
+    'RUB (руб)',
+    'SEK (kr)',
+    'SGD ($)',
+    'THB (฿)',
+    'TRY (Tl)',
+    'USD ($)',
+    'ZAR (R)'
+  ]);
 
-  state = {
-    totalType: ['Avg. Expenses', 'Total Expenses'],
-    selectedTotalType: '',
-    openExpenseTypeSelection: false,
-    supportedCurrencies: [
-      'AUD ($)',
-      'BGN (лв)',
-      'BRL (R$)',
-      'CAD ($)',
-      'CHF',
-      'CNY (¥)',
-      'CZK (Kč)',
-      'DKK (kr)',
-      'EUR (€)',
-      'GBP (£)',
-      'HKD ($)',
-      'ILS (₪)',
-      'INR (₹)',
-      'ISK (kr)',
-      'JPY (￥)',
-      'KRW (₩)',
-      'MXN ($)',
-      'MYR (RM)',
-      'NOK (kr)',
-      'NZD ($)',
-      'PHP (P)',
-      'PLN (zł)',
-      'RON',
-      'RUB (руб)',
-      'SEK (kr)',
-      'SGD ($)',
-      'THB (฿)',
-      'TRY (Tl)',
-      'USD ($)',
-      'ZAR (R)'
-    ],
-    selectedCurrency: '',
-    openCurrencySelection: false,
-    availableSortType: ['Max. Amount', 'Min. Amount', 'Alphabetical'],
-    selectedSortType: '',
-    openSortTypeSelection: false,
-    highAlertAmount: '50',
-    openHighAlertAmountView: false
-  };
+  const [isCurrencySelection, setCurrencySelection] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState('');
+  const [sortType, setSortType] = useState([
+    'Max. Amount',
+    'Min. Amount',
+    'Alphabetical'
+  ]);
+  const [isSortTypeSelection, setSortTypeSelection] = useState(false);
+  const [selectedSortType, setSelectedSortType] = useState('');
+  const [highAlertAmount, setHighAlertAmount] = useState('50');
+  const [isHighAlertAmountViewOpen, setHighAlertAmountView] = useState(false);
 
-  componentDidMount() {
-    this.setState({
-      selectedTotalType: this.state.totalType[0],
-      selectedCurrency: this.state.supportedCurrencies[0],
-      selectedSortType: this.state.availableSortType[0]
-    });
-  }
+  useEffect(() => {
+    setSelectedTotalType(totalType[0]);
+    setSelectedCurrency(currencies[0]);
+    setSelectedSortType(sortType[0]);
+  }, []);
 
   openAboutScreen = () => {
-    this.props.navigation.push('About');
+    navigation.push('About');
   };
 
   openExpenseTypeSelectionModal = () => {
-    this.setState({
-      openExpenseTypeSelection: true
-    });
+    setExpenseTypeSelection(true);
   };
 
   closeExpenseTypeSelectionModal = () => {
-    this.setState({
-      openExpenseTypeSelection: false
-    });
+    setExpenseTypeSelection(false);
   };
 
   onTotalTypeChange = (itemValue, itemPosition) => {
-    this.setState({
-      selectedTotalType: itemValue
-    });
+    setSelectedTotalType(itemValue);
   };
 
   openCurrencyModal = () => {
-    this.setState({
-      openCurrencySelection: true
-    });
+    setCurrencySelection(true);
   };
 
   closeCurrencyModal = () => {
-    this.setState({
-      openCurrencySelection: false
-    });
+    setCurrencySelection(false);
   };
 
   onCurrencyChange = (item, itemPosition) => {
-    this.setState({
-      selectedCurrency: item
-    });
+    setSelectedCurrency(item);
   };
 
   openSortTypeSelectionModal = () => {
-    this.setState({
-      openSortTypeSelection: true
-    });
+    setSortTypeSelection(true);
   };
 
   closeSortTypeSelectionModal = () => {
-    this.setState({
-      openSortTypeSelection: false
-    });
+    setSortTypeSelection(false);
   };
 
   onSortTypeChange = (item, itemPosition) => {
-    this.setState({
-      selectedSortType: item
-    });
+    setSelectedSortType(item);
   };
 
   closeHighAlertAmountModal = () => {
-    this.setState({
-      openHighAlertAmountView: false
-    });
+    setHighAlertAmountView(false);
   };
 
   openHighAlertAmountModal = () => {
-    this.setState({
-      openHighAlertAmountView: true
-    });
+    setHighAlertAmountView(true);
   };
 
-  render() {
-    const {
-      selectedTotalType,
-      selectedCurrency,
-      openCurrencySelection,
-      openExpenseTypeSelection,
-      totalType,
-      supportedCurrencies,
-      selectedSortType,
-      availableSortType,
-      openSortTypeSelection,
-      highAlertAmount,
-      openHighAlertAmountView
-    } = this.state;
+  return (
+    <View style={styles.settingsWrapper}>
+      <Popover
+        isVisible={isExpenseTypeSelection}
+        title='View Total as'
+        pickerData={totalType}
+        selectedPickerValue={selectedTotalType}
+        onCloseAction={() => closeExpenseTypeSelectionModal()}
+        setPickerValue={itemValue => onTotalTypeChange(itemValue)}
+      />
 
-    return (
-      <View style={styles.settingsWrapper}>
-        <Popover
-          isVisible={openExpenseTypeSelection}
-          title='View Total as'
-          pickerData={totalType}
-          selectedPickerValue={selectedTotalType}
-          onCloseAction={() => this.closeExpenseTypeSelectionModal()}
-          setPickerValue={itemValue => this.onTotalTypeChange(itemValue)}
-        />
+      <Popover
+        isVisible={isCurrencySelection}
+        title='Set default currency'
+        pickerData={currencies}
+        selectedPickerValue={selectedCurrency}
+        onCloseAction={() => closeCurrencyModal()}
+        setPickerValue={itemValue => onCurrencyChange(itemValue)}
+      />
 
-        <Popover
-          isVisible={openCurrencySelection}
-          title='Set default currency'
-          pickerData={supportedCurrencies}
-          selectedPickerValue={selectedCurrency}
-          onCloseAction={() => this.closeCurrencyModal()}
-          setPickerValue={itemValue => this.onCurrencyChange(itemValue)}
-        />
+      <Popover
+        isVisible={isSortTypeSelection}
+        title='Set Sort type'
+        pickerData={sortType}
+        selectedPickerValue={selectedSortType}
+        onCloseAction={() => closeSortTypeSelectionModal()}
+        setPickerValue={itemValue => onSortTypeChange(itemValue)}
+      />
 
-        <Popover
-          isVisible={openSortTypeSelection}
-          title='Set Sort type'
-          pickerData={availableSortType}
-          selectedPickerValue={selectedSortType}
-          onCloseAction={() => this.closeSortTypeSelectionModal()}
-          setPickerValue={itemValue => this.onSortTypeChange(itemValue)}
-        />
-
-        <View style={styles.pageHeader}>
-          <Text style={styles.pageTitle}>Preferences</Text>
-        </View>
-        <KeyboardAvoidingView behavior='position'>
-          <ScrollView style={styles.settingsList}>
-            <SettingsRow
-              title='View Total as'
-              onPressAction={() => this.openExpenseTypeSelectionModal()}
-              defaultValue={selectedTotalType}
-            />
-            <SettingsRow
-              title='Default Currency'
-              defaultValue={selectedCurrency}
-              onPressAction={() => this.openCurrencyModal()}
-            />
-            <SettingsRow
-              title='Sort Subscription'
-              defaultValue={selectedSortType}
-              onPressAction={() => this.openSortTypeSelectionModal()}
-            />
-
-            <View style={styles.row}>
-              <Text style={styles.rowLabel}>High Alert Amount</Text>
-              <TextInput
-                allowFontScaling={true}
-                maxLength={3}
-                returnKeyType='done'
-                keyboardType={'numeric'}
-                onChangeText={highAlertAmount =>
-                  this.setState({
-                    highAlertAmount
-                  })
-                }
-                value={highAlertAmount}
-                style={styles.rowField}
-              />
-            </View>
-
-            <SettingsRow
-              onPressAction={() => this.openAboutScreen()}
-              title='About Us'
-              defaultValue=''
-            />
-            <SettingsRow title='Rate Us' defaultValue='' />
-            <Version versionNumber='v 1.0' />
-          </ScrollView>
-        </KeyboardAvoidingView>
+      <View style={styles.pageHeader}>
+        <Text style={styles.pageTitle}>Preferences</Text>
       </View>
-    );
-  }
+      <KeyboardAvoidingView behavior='position'>
+        <ScrollView style={styles.settingsList}>
+          <SettingsRow
+            title='View Total as'
+            onPressAction={() => openExpenseTypeSelectionModal()}
+            defaultValue={selectedTotalType}
+          />
+          <SettingsRow
+            title='Default Currency'
+            defaultValue={selectedCurrency}
+            onPressAction={() => openCurrencyModal()}
+          />
+          <SettingsRow
+            title='Sort Subscription'
+            defaultValue={selectedSortType}
+            onPressAction={() => openSortTypeSelectionModal()}
+          />
+
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>High Alert Amount</Text>
+            <TextInput
+              allowFontScaling={true}
+              maxLength={5}
+              returnKeyType='done'
+              keyboardType={'numeric'}
+              onChangeText={highAlertAmount =>
+                setHighAlertAmount(highAlertAmount)
+              }
+              value={highAlertAmount}
+              style={styles.rowField}
+            />
+          </View>
+
+          <SettingsRow
+            onPressAction={() => openAboutScreen()}
+            title='About Us'
+            defaultValue=''
+          />
+          <SettingsRow title='Rate Us' defaultValue='' />
+          <Version versionNumber='v 1.0' />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

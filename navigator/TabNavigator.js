@@ -57,7 +57,10 @@ const SettingsStack = createStackNavigator(
     Popover
   },
   {
-    mode: 'modal'
+    mode: 'modal',
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 

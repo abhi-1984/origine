@@ -21,6 +21,7 @@ export default function Home({ navigation }) {
   };
 
   prepareForSendingData = item => {
+    let index = subscriptions.indexOf(item);
     return {
       pageTitle: 'Edit Subscription',
       name: item.name,
@@ -28,7 +29,8 @@ export default function Home({ navigation }) {
       amount: item.amount,
       firstBillDate: item.firstBillDate,
       billingCycle: item.billingCycle,
-      mode: 'edit'
+      mode: 'edit',
+      index: index
     };
   };
 
@@ -47,7 +49,7 @@ export default function Home({ navigation }) {
         subscriptionsCount={subscriptions.length}
         openAddSubscriptionView={() => this.handleAddSubscriptionView()}
       />
-
+      {console.log('subscriptions are>>>', subscriptions)}
       <FlatList
         contentContainerStyle={[
           styles.listView,
