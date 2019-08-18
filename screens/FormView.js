@@ -119,7 +119,6 @@ export default function FormView({ navigation }) {
   };
 
   removeSubscription = index => {
-    console.log('items index is>> ', index);
     dispatch(removeSubscriptionData(index));
     navigation.navigate('Home');
   };
@@ -133,7 +132,6 @@ export default function FormView({ navigation }) {
       firstBillDate: firstBillDate,
       index: index
     };
-    console.log('update subscription called');
     dispatch(updateSubscriptionData(data));
     navigation.navigate('Home');
   };

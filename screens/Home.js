@@ -37,11 +37,14 @@ export default function Home({ navigation }) {
       firstBillDate: item.firstBillDate,
       billingCycle: item.billingCycle,
       mode: 'edit',
-      index: index
+      index: index,
+      color: item.color,
+      custom: item.isCustomSubscription
     };
   };
 
   openFormView = item => {
+    console.log('item is>>>', item);
     navigation.navigate('FormView', { pageData: prepareForSendingData(item) });
   };
 

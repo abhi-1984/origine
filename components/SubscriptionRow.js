@@ -13,7 +13,6 @@ export default function SubscriptionRow({ data, onPressAction }) {
 
   return (
     <TouchableOpacity onPress={onPressAction} style={styles.row}>
-      {console.log('subscription row data is>>>', data)}
       {data.isCustomSubscription ? (
         <View
           style={[
