@@ -17,7 +17,11 @@ import FooterButton from '../components/FooterButton';
 import SettingsRow from '../components/SettingsRow';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Popover from '../components/Popover';
-import { setSubscriptionsData, removeSubscriptionData } from '../actions';
+import {
+  setSubscriptionsData,
+  removeSubscriptionData,
+  updateSubscriptionData
+} from '../actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
@@ -114,6 +118,20 @@ export default function FormView({ navigation }) {
     navigation.navigate('Home');
   };
 
+  updateSubscription = index => {
+    const data = {
+      name: name,
+      logo: logo,
+      amount: amount,
+      billingCycle: billingCycle,
+      firstBillDate: firstBillDate,
+      index: index
+    };
+    console.log('update subscription called');
+    dispatch(updateSubscriptionData(data));
+    navigation.navigate('Home');
+  };
+
   return (
     <View style={styles.formView}>
       <PageTitle
@@ -174,7 +192,9 @@ export default function FormView({ navigation }) {
       </ScrollView>
 
       <FooterButton
-        onPressAction={() => addSubscriptionsData()}
+        onPressAction={() =>
+          mode === 'edit' ? updateSubscription(index) : addSubscriptionsData()
+        }
         isDisabled={amount === ''}
         label={mode === 'edit' ? 'Save Changes' : 'save'}
       />

@@ -12,6 +12,13 @@ export const removeSubscriptionData = data => {
   };
 };
 
+export const updateSubscriptionData = data => {
+  return {
+    type: 'UPDATE_SUBSCRIPTION_DATA',
+    payload: data
+  };
+};
+
 export const getCurrencyData = () => {
   return {
     type: 'GET_CURRENCY_DATA'

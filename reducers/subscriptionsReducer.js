@@ -11,6 +11,16 @@ const subscriptionsReducer = (state = initialData, action) => {
         }
         return true;
       });
+    case 'UPDATE_SUBSCRIPTION_DATA':
+      return state.map((item, index) => {
+        if (item.name === action.payload.name) {
+          return {
+            ...item,
+            ...action.payload
+          };
+        }
+        return item;
+      });
     default:
       return state;
   }
