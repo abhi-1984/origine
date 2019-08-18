@@ -53,25 +53,16 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.homeWrapper}>
       <HeaderView
-        subscriptionsCount={subscriptions.length}
+        subscriptionsCount={subscriptionsData.length}
         openAddSubscriptionView={() => this.handleAddSubscriptionView()}
       />
-      {console.log(
-        'subscriptions are>>>',
-        subscriptions,
-        'and default currency is ',
-        defaultCurrencyData,
-        'and default sort type is',
-        defaultSortType,
-        'and default high alert amount is ',
-        defaultHighAlertAmount
-      )}
+      {console.log('subscriptions are>>>', subscriptionsData)}
       <FlatList
         contentContainerStyle={[
           styles.listView,
-          subscriptions.length < 1 && { marginBottom: 0 }
+          subscriptionsData.length < 1 && { marginBottom: 0 }
         ]}
-        data={[...subscriptions]}
+        data={[...subscriptionsData]}
         ListEmptyComponent={EmptyList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
