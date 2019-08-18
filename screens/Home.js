@@ -28,7 +28,7 @@ export default function Home({ navigation }) {
   };
 
   prepareForSendingData = item => {
-    let index = subscriptions.indexOf(item);
+    let index = subscriptionsData.indexOf(item);
     return {
       pageTitle: 'Edit Subscription',
       name: item.name,

@@ -17,7 +17,7 @@ import FooterButton from '../components/FooterButton';
 import SettingsRow from '../components/SettingsRow';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Popover from '../components/Popover';
-import { setSubscriptionsData } from '../actions';
+import { setSubscriptionsData, removeSubscriptionData } from '../actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
@@ -27,6 +27,7 @@ export default function FormView({ navigation }) {
 
   //state
   const [mode, setMode] = useState(null);
+  const [index, setIndex] = useState(null);
   const [name, setName] = useState('');
   const [logo, setLogo] = useState(null);
   const [amount, setAmount] = useState(null);
@@ -51,6 +52,7 @@ export default function FormView({ navigation }) {
     setFirstBillDate(pageData.firstBillDate);
     setBillingCycle(pageData.billingCycle);
     setMode(pageData.mode);
+    setIndex(pageData.index);
   }, []);
 
   openDatePicker = () => {
@@ -106,6 +108,12 @@ export default function FormView({ navigation }) {
     navigation.navigate('Home');
   };
 
+  removeSubscription = index => {
+    console.log('items index is>> ', index);
+    dispatch(removeSubscriptionData(index));
+    navigation.navigate('Home');
+  };
+
   return (
     <View style={styles.formView}>
       <PageTitle
@@ -155,7 +163,10 @@ export default function FormView({ navigation }) {
 
         {mode === 'edit' && (
           <View style={styles.deleteActionRow}>
-            <TouchableOpacity style={styles.deleteAction}>
+            <TouchableOpacity
+              onPress={() => removeSubscription(index)}
+              style={styles.deleteAction}
+            >
               <Text style={styles.deleteActionText}>Remove Subscription</Text>
             </TouchableOpacity>
           </View>

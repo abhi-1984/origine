@@ -5,6 +5,13 @@ export const setSubscriptionsData = data => {
   };
 };
 
+export const removeSubscriptionData = data => {
+  return {
+    type: 'REMOVE_SUBSCRIPTION_DATA',
+    payload: data
+  };
+};
+
 export const getCurrencyData = () => {
   return {
     type: 'GET_CURRENCY_DATA'
