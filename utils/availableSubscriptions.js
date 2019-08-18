@@ -2,62 +2,52 @@ const availableSubscription = [
   {
     key: 1,
     name: 'Spotify',
-    logo: require('../assets/Spotify.png'),
-    amount: 9.99
+    logo: require('../assets/Spotify.png')
   },
   {
     key: 2,
     name: 'Apple Music',
-    logo: require('../assets/Apple.png'),
-    amount: 19.99
+    logo: require('../assets/Apple.png')
   },
   {
     key: 3,
     name: 'Webflow',
-    logo: require('../assets/Webflow.png'),
-    amount: 24.0
+    logo: require('../assets/Webflow.png')
   },
   {
     key: 4,
     name: 'Sketch',
-    logo: require('../assets/Sketch.png'),
-    amount: 99.0
+    logo: require('../assets/Sketch.png')
   },
   {
     key: 5,
     name: 'Figma',
-    logo: require('../assets/Figma.png'),
-    amount: 30.99
+    logo: require('../assets/Figma.png')
   },
   {
     key: 6,
     name: 'Framer',
-    logo: require('../assets/FramerX.png'),
-    amount: 12.5
+    logo: require('../assets/FramerX.png')
   },
   {
     key: 7,
     name: 'Dropbox',
-    logo: require('../assets/Dropbox.png'),
-    amount: 120.0
+    logo: require('../assets/Dropbox.png')
   },
   {
     key: 8,
     name: 'Dribbble',
-    logo: require('../assets/Dribbble.png'),
-    amount: 15.0
+    logo: require('../assets/Dribbble.png')
   },
   {
     key: 9,
     name: 'Netflix',
-    logo: require('../assets/Netflix.png'),
-    amount: 15.0
+    logo: require('../assets/Netflix.png')
   },
   {
     key: 10,
     name: 'Amazon Prime',
-    logo: require('../assets/AmazonPrime.png'),
-    amount: 12.0
+    logo: require('../assets/AmazonPrime.png')
   }
 ];
 

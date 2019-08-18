@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, View, StyleSheet, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
 import SubscriptionRow from '../components/SubscriptionRow';
-import availableSubscriptions from '../utils/availableSubscriptions';
-import FooterButton from '../components/FooterButton';
 import HeaderView from '../components/HeaderView';
 import EmptyList from '../components/EmptyList';
 
@@ -24,7 +22,9 @@ export default function Home({ navigation }) {
 
   //Navigation
   handleAddSubscriptionView = () => {
-    navigation.push('AddSubscription');
+    navigation.push('AddSubscription', {
+      subscriptionsAdded: subscriptionsData
+    });
   };
 
   prepareForSendingData = item => {
