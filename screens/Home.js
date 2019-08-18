@@ -13,9 +13,6 @@ export default function Home({ navigation }) {
   const defaultCurrencyData = useSelector(
     state => state.setDefaultCurrencyReducer
   );
-  const defaultTotalType = useSelector(
-    state => state.setDefaultTotalTypeReducer
-  );
   const defaultSortType = useSelector(state => state.setDefaultSortTypeReducer);
   const defaultHighAlertAmount = useSelector(
     state => state.setDefaultHighAlertAmountReducer
@@ -64,8 +61,6 @@ export default function Home({ navigation }) {
         subscriptions,
         'and default currency is ',
         defaultCurrencyData,
-        ' and default total type is ',
-        defaultTotalType,
         'and default sort type is',
         defaultSortType,
         'and default high alert amount is ',

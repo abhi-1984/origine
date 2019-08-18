@@ -18,13 +18,6 @@ export const setSelectedCurrencyData = data => {
   };
 };
 
-export const setDefaultTotalTypeData = data => {
-  return {
-    type: 'SET_DEFAULT_TOTAL_TYPE',
-    payload: data
-  };
-};
-
 export const setDefaultSortTypeData = data => {
   return {
     type: 'SET_DEFAULT_SORT_TYPE',
