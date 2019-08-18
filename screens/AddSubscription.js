@@ -32,17 +32,30 @@ export default class AddSubscription extends React.Component {
     };
   };
 
-  openFormView = item => {
+  openFormViewForDefaultSubscription = item => {
     this.props.navigation.push('FormView', {
       pageData: this.prepareForSendingData(item)
     });
+  };
+
+  getRandomColor = () => {
+    const colors = [
+      '#000000',
+      '#0057ff',
+      '#4B96E9',
+      '#5D4BE9',
+      '#1ED760',
+      '#D71E6C'
+    ];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    return randomColor;
   };
 
   openFormViewForCustomSubscription = () => {
     const data = {
       pageTitle: 'Add Subscription',
       name: '',
-      color: '#000',
+      color: this.getRandomColor(),
       amount: '0',
       firstBillDate: 'Aug 17, 2019',
       billingCycle: 'Monthly',
@@ -67,7 +80,7 @@ export default class AddSubscription extends React.Component {
           keyExtractor={item => item.key.toString()}
           renderItem={({ item }) => (
             <AddSubscriptionRow
-              handlePress={() => this.openFormView(item)}
+              handlePress={() => this.openFormViewForDefaultSubscription(item)}
               label={item.name}
               logo={item.logo}
             />

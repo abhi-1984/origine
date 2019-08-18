@@ -166,7 +166,7 @@ export default function FormView({ navigation }) {
             <Text style={styles.rowLabel}>Name</Text>
             <TextInput
               allowFontScaling={true}
-              maxLength={30}
+              maxLength={15}
               returnKeyType='done'
               onChangeText={name => {
                 setName(name);

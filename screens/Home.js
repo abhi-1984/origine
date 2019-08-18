@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginBottom: 65,
-    flex: 1
+    paddingBottom: 65
   }
 });
