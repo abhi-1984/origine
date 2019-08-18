@@ -47,6 +47,8 @@ export default function FormView({ navigation }) {
   ]);
   const [firstBillDatePicker, setFirstBillDatePicker] = useState(false);
   const [billingCyclePicker, setBillingCyclePicker] = useState(false);
+  const [isCustomSubscriptionForm, setCustomSubscriptionForm] = useState(false);
+  const [customColor, setCustomColor] = useState('#000');
 
   useEffect(() => {
     const pageData = navigation.getParam('pageData', {});
@@ -57,6 +59,8 @@ export default function FormView({ navigation }) {
     setBillingCycle(pageData.billingCycle);
     setMode(pageData.mode);
     setIndex(pageData.index);
+    setCustomSubscriptionForm(pageData.custom);
+    setCustomColor(pageData.color);
   }, []);
 
   openDatePicker = () => {
@@ -105,7 +109,9 @@ export default function FormView({ navigation }) {
       logo: logo,
       amount: amount,
       billingCycle: billingCycle,
-      firstBillDate: firstBillDate
+      firstBillDate: firstBillDate,
+      color: customColor,
+      isCustomSubscription: isCustomSubscriptionForm ? true : false
     };
 
     dispatch(setSubscriptionsData(data));
@@ -139,8 +145,14 @@ export default function FormView({ navigation }) {
         label={mode === 'edit' ? `Edit Subscription` : 'Add Subscription'}
       />
       <ScrollView contentContainerStyle={styles.formWrapper}>
-        <Image style={styles.logo} source={logo} />
-        <Text style={styles.name}>{name}</Text>
+        {isCustomSubscriptionForm ? (
+          <View style={[styles.customLogo, { backgroundColor: customColor }]} />
+        ) : (
+          <Image style={styles.logo} source={logo} />
+        )}
+
+        {!isCustomSubscriptionForm && <Text style={styles.name}>{name}</Text>}
+
         <TextInput
           allowFontScaling={true}
           placeholder='Amount'
@@ -150,6 +162,24 @@ export default function FormView({ navigation }) {
           onChangeText={amount => setAmount(amount)}
           style={styles.amountField}
         />
+
+        {isCustomSubscriptionForm && (
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Name</Text>
+            <TextInput
+              allowFontScaling={true}
+              maxLength={30}
+              returnKeyType='done'
+              onChangeText={name => {
+                setName(name);
+              }}
+              placeholder='Enter name'
+              value={name}
+              style={styles.rowField}
+            />
+          </View>
+        )}
+
         <SettingsRow
           title='First Bill'
           onPressAction={() => {
@@ -217,6 +247,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10
   },
+  customLogo: {
+    width: 60,
+    height: 60,
+    marginTop: 15,
+    marginBottom: 10,
+    borderRadius: 30
+  },
   name: {
     marginBottom: 20,
     fontSize: 20,
@@ -248,13 +285,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0
   },
-  rowLabel: {
-    fontSize: 16
-  },
-  rowField: {
-    fontSize: 16,
-    color: 'rgba(0,0,0,0.6)'
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -268,7 +298,10 @@ const styles = StyleSheet.create({
   },
   rowField: {
     fontSize: 16,
-    color: 'rgba(0,0,0,0.6)'
+    color: 'rgba(0,0,0,0.6)',
+    textAlign: 'right',
+    flex: 1,
+    marginLeft: 10
   },
   deleteActionRow: {
     paddingHorizontal: 30,

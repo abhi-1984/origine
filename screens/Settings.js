@@ -14,7 +14,6 @@ import Popover from '../components/Popover';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedCurrencyData,
-  setDefaultTotalTypeData,
   setDefaultSortTypeData,
   setDefaultHighAlertAmountData
 } from '../actions';
@@ -142,7 +141,6 @@ export default function Settings({ navigation }) {
             title='About Us'
             defaultValue=''
           />
-          <SettingsRow title='Rate Us' defaultValue='' />
           <Version versionNumber='v 1.0' />
         </ScrollView>
       </KeyboardAvoidingView>

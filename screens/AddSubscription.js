@@ -38,6 +38,22 @@ export default class AddSubscription extends React.Component {
     });
   };
 
+  openFormViewForCustomSubscription = () => {
+    const data = {
+      pageTitle: 'Add Subscription',
+      name: '',
+      color: '#000',
+      amount: '0',
+      firstBillDate: 'Aug 17, 2019',
+      billingCycle: 'Monthly',
+      mode: 'add',
+      custom: true
+    };
+    this.props.navigation.push('FormView', {
+      pageData: data
+    });
+  };
+
   render() {
     return (
       <View style={styles.addSubscriptionWrapper}>
@@ -59,7 +75,7 @@ export default class AddSubscription extends React.Component {
         />
 
         <FooterButton
-          onPressAction={() => this.openFormView()}
+          onPressAction={() => this.openFormViewForCustomSubscription()}
           label='Create custom subscription'
         />
       </View>
