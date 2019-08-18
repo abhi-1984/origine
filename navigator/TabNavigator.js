@@ -8,6 +8,7 @@ import Settings from '../screens/Settings';
 import About from '../screens/About';
 import FormView from '../screens/FormView';
 import AddSubscription from '../screens/AddSubscription';
+import EmptyList from '../components/EmptyList';
 import Popover from '../screens/Popover';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -18,7 +19,8 @@ const HomeStack = createStackNavigator(
   {
     Home,
     AddSubscription,
-    FormView
+    FormView,
+    EmptyList
   },
   {
     mode: 'modal',

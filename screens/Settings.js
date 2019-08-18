@@ -25,14 +25,7 @@ export default function Settings({ navigation }) {
   const dispatch = useDispatch();
 
   //LOCAL STATE
-  const [totalType, setTotalType] = useState([
-    'Avg. Expenses',
-    'Total Expenses'
-  ]);
-  const [selectedTotalType, setSelectedTotalType] = useState('');
-  const [isExpenseTypeSelection, setExpenseTypeSelection] = useState(false);
   const [currencies, setCurrencies] = useState([]);
-
   const [isCurrencySelection, setCurrencySelection] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD ($)');
   const [sortType, setSortType] = useState([
@@ -46,28 +39,12 @@ export default function Settings({ navigation }) {
   const [isHighAlertAmountViewOpen, setHighAlertAmountView] = useState(false);
 
   useEffect(() => {
-    setSelectedTotalType(totalType[0]);
     setSelectedSortType(sortType[0]);
     setCurrencies([...currencyData]);
   }, []);
 
   openAboutScreen = () => {
     navigation.push('About');
-  };
-
-  openExpenseTypeSelectionModal = () => {
-    setExpenseTypeSelection(true);
-  };
-
-  closeExpenseTypeSelectionModal = item => {
-    if (item) {
-      dispatch(setDefaultTotalTypeData(item));
-    }
-    setExpenseTypeSelection(false);
-  };
-
-  onTotalTypeChange = (itemValue, itemPosition) => {
-    setSelectedTotalType(itemValue);
   };
 
   openCurrencyModal = () => {
@@ -111,15 +88,6 @@ export default function Settings({ navigation }) {
   return (
     <View style={styles.settingsWrapper}>
       <Popover
-        isVisible={isExpenseTypeSelection}
-        title='View Total as'
-        pickerData={totalType}
-        selectedPickerValue={selectedTotalType}
-        onCloseAction={() => closeExpenseTypeSelectionModal(selectedTotalType)}
-        setPickerValue={itemValue => onTotalTypeChange(itemValue)}
-      />
-
-      <Popover
         isVisible={isCurrencySelection}
         title='Set default currency'
         pickerData={currencies}
@@ -142,11 +110,6 @@ export default function Settings({ navigation }) {
       </View>
       <KeyboardAvoidingView behavior='position'>
         <ScrollView style={styles.settingsList}>
-          <SettingsRow
-            title='View Total as'
-            onPressAction={() => openExpenseTypeSelectionModal()}
-            defaultValue={selectedTotalType}
-          />
           <SettingsRow
             title='Default Currency'
             defaultValue={selectedCurrency}
@@ -196,7 +159,7 @@ const styles = StyleSheet.create({
   },
   pageHeader: {
     width: '100%',
-    paddingTop: 45,
+    paddingTop: 30,
     paddingBottom: 15,
     paddingHorizontal: 30,
     backgroundColor: '#fff',

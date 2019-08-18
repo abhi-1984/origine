@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export default function EmptyList({ navigation }) {
+function EmptyList({ navigation }) {
   handleAddSubscriptionView = () => {
-    navigation.push('AddSubscription');
+    navigation.navigate('AddSubscription');
   };
 
   return (
@@ -25,6 +26,8 @@ export default function EmptyList({ navigation }) {
     </View>
   );
 }
+
+export default withNavigation(EmptyList);
 
 const styles = StyleSheet.create({
   emptyListWrapper: {

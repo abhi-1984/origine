@@ -10,9 +10,6 @@ export default function HeaderView({
     <View style={styles.headerView}>
       <View style={styles.headerInfo}>
         <Text style={styles.headerTitle}>Subscriptions</Text>
-        {subscriptionsCount >= 1 && (
-          <Text style={styles.headerSubtitle}>Avg. Expenses $45.00/mo</Text>
-        )}
       </View>
       {subscriptionsCount >= 1 && (
         <TouchableOpacity onPress={openAddSubscriptionView}>
