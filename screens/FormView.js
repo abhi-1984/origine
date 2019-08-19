@@ -107,7 +107,7 @@ export default function FormView({ navigation }) {
   addSubscriptionsData = () => {
     const data = {
       name: name,
-      logo: logo,
+      logo: isCustomSubscriptionForm ? '' : logo,
       amount: amount,
       billingCycle: billingCycle,
       firstBillDate: firstBillDate,
