@@ -66,7 +66,7 @@ export default function Home({ navigation }) {
       .ref('subscriptions')
       .on('value', data => {
         let jsonData = data.toJSON();
-        let convertedArray = Object.values(jsonData);
+        let convertedArray = jsonData ? Object.values(jsonData) : [];
         setSubscriptions(convertedArray);
         setLoading(false);
       });

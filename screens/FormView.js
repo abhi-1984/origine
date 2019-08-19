@@ -140,9 +140,15 @@ export default function FormView({ navigation }) {
       amount: amount,
       billingCycle: billingCycle,
       firstBillDate: firstBillDate,
-      index: index
+      index: index,
+      color: isCustomSubscriptionForm ? customColor : '',
+      isCustomSubscription: isCustomSubscriptionForm ? true : false
     };
     dispatch(updateSubscriptionData(data));
+    firebase
+      .database()
+      .ref(`subscriptions/${name}`)
+      .update(data);
     navigation.navigate('Home');
   };
 
