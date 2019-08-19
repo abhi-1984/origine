@@ -22,6 +22,7 @@ import {
   removeSubscriptionData,
   updateSubscriptionData
 } from '../actions';
+import firebase from 'firebase';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
@@ -110,9 +111,14 @@ export default function FormView({ navigation }) {
       amount: amount,
       billingCycle: billingCycle,
       firstBillDate: firstBillDate,
-      color: customColor,
+      color: isCustomSubscriptionForm ? customColor : '',
       isCustomSubscription: isCustomSubscriptionForm ? true : false
     };
+
+    firebase
+      .database()
+      .ref(`subscriptions/${name}`)
+      .set(data);
 
     dispatch(setSubscriptionsData(data));
     navigation.navigate('Home');
