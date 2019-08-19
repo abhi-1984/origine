@@ -11,7 +11,7 @@ export default function HeaderView({
       <View style={styles.headerInfo}>
         <Text style={styles.headerTitle}>Subscriptions</Text>
       </View>
-      {subscriptionsCount >= 1 && (
+      {subscriptionsCount >= 1 && subscriptionsCount <= 30 && (
         <TouchableOpacity onPress={openAddSubscriptionView}>
           <Ionicons
             style={styles.headerIcon}
