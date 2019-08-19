@@ -126,6 +126,10 @@ export default function FormView({ navigation }) {
 
   removeSubscription = index => {
     dispatch(removeSubscriptionData(index));
+    firebase
+      .database()
+      .ref(`subscriptions/${name}`)
+      .remove();
     navigation.navigate('Home');
   };
 
