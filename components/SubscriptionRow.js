@@ -8,6 +8,7 @@ const deviceID = Constants.installationId;
 
 export default function SubscriptionRow({ data, onPressAction }) {
   const [globalHighCurrencyRate, setGlobalHighCurrencyRate] = useState('0');
+  const [globalCurrency, setGlobalCurrency] = useState('USD ($)');
 
   useEffect(() => {
     firebase
@@ -15,6 +16,7 @@ export default function SubscriptionRow({ data, onPressAction }) {
       .ref(`${deviceID}/preferences`)
       .on('value', data => {
         let jsonData = data.toJSON();
+        setGlobalCurrency(jsonData ? jsonData.currency : 'USD ($)');
         setGlobalHighCurrencyRate(jsonData ? jsonData.highAlertAmount : '0');
       });
   }, []);
@@ -51,7 +53,7 @@ export default function SubscriptionRow({ data, onPressAction }) {
           data.amount >= parseInt(globalHighCurrencyRate) && styles.highAmount
         ]}
       >
-        {defaultCurrencyData.match(/\(([^)]+)\)/)[1]}
+        {globalCurrency.match(/\(([^)]+)\)/)[1]}
         {data.amount}
       </Text>
     </TouchableOpacity>
