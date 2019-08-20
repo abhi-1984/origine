@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
+import firebase from 'firebase';
+import Constants from 'expo-constants';
+
+const deviceID = Constants.installationId;
 
 export default function SubscriptionRow({ data, onPressAction }) {
+  const [globalHighCurrencyRate, setGlobalHighCurrencyRate] = useState('0');
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`${deviceID}/preferences`)
+      .on('value', data => {
+        let jsonData = data.toJSON();
+        setGlobalHighCurrencyRate(jsonData ? jsonData.highAlertAmount : '0');
+      });
+  }, []);
+
   const defaultCurrencyData = useSelector(
     state => state.setDefaultCurrencyReducer
   );
@@ -13,6 +29,7 @@ export default function SubscriptionRow({ data, onPressAction }) {
 
   return (
     <TouchableOpacity onPress={onPressAction} style={styles.row}>
+      {console.log('highAlertAmount is.>', globalHighCurrencyRate)}
       {data.isCustomSubscription ? (
         <View
           style={[
@@ -31,7 +48,7 @@ export default function SubscriptionRow({ data, onPressAction }) {
       <Text
         style={[
           styles.amount,
-          data.amount >= parseInt(defaultHighAlertAmount) && styles.highAmount
+          data.amount >= parseInt(globalHighCurrencyRate) && styles.highAmount
         ]}
       >
         {defaultCurrencyData.match(/\(([^)]+)\)/)[1]}

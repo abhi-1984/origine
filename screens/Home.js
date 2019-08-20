@@ -75,6 +75,13 @@ export default function Home({ navigation }) {
       });
   }, []);
 
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`${deviceID}/preferences`)
+      .set({ currency: 'USD ($)', highAlertAmount: '1500' });
+  }, []);
+
   return (
     <View style={styles.homeWrapper}>
       {!isLoading ? (
