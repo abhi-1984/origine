@@ -6,7 +6,7 @@ export default function FooterButton({ label, onPressAction, isDisabled }) {
     <TouchableOpacity
       disabled={isDisabled}
       onPress={onPressAction}
-      style={styles.footerButton}
+      style={[styles.footerButton, isDisabled ? { opacity: 0.5 } : 1]}
     >
       <Text style={styles.footerButtonText}>{label}</Text>
     </TouchableOpacity>

@@ -11,6 +11,9 @@ import SubscriptionRow from '../components/SubscriptionRow';
 import HeaderView from '../components/HeaderView';
 import EmptyList from '../components/EmptyList';
 import firebase from 'firebase';
+import Constants from 'expo-constants';
+
+const deviceID = Constants.installationId;
 
 export default function Home({ navigation }) {
   //Redux
@@ -63,7 +66,7 @@ export default function Home({ navigation }) {
 
     firebase
       .database()
-      .ref('subscriptions')
+      .ref(`${deviceID}/subscriptions`)
       .on('value', data => {
         let jsonData = data.toJSON();
         let convertedArray = jsonData ? Object.values(jsonData) : [];

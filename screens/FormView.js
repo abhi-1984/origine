@@ -23,8 +23,10 @@ import {
   updateSubscriptionData
 } from '../actions';
 import firebase from 'firebase';
+import Constants from 'expo-constants';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
+const deviceID = Constants.installationId;
 
 export default function FormView({ navigation }) {
   //redux
@@ -62,6 +64,7 @@ export default function FormView({ navigation }) {
     setIndex(pageData.index);
     setCustomSubscriptionForm(pageData.custom);
     setCustomColor(pageData.color);
+    console.log('device id is>>>', deviceID);
   }, []);
 
   openDatePicker = () => {
@@ -117,7 +120,7 @@ export default function FormView({ navigation }) {
 
     firebase
       .database()
-      .ref(`subscriptions/${name}`)
+      .ref(`${deviceID}/subscriptions/${name}`)
       .set(data);
 
     dispatch(setSubscriptionsData(data));
@@ -128,7 +131,7 @@ export default function FormView({ navigation }) {
     dispatch(removeSubscriptionData(index));
     firebase
       .database()
-      .ref(`subscriptions/${name}`)
+      .ref(`${deviceID}/subscriptions/${name}`)
       .remove();
     navigation.navigate('Home');
   };
@@ -147,7 +150,7 @@ export default function FormView({ navigation }) {
     dispatch(updateSubscriptionData(data));
     firebase
       .database()
-      .ref(`subscriptions/${name}`)
+      .ref(`${deviceID}/subscriptions/${name}`)
       .update(data);
     navigation.navigate('Home');
   };
@@ -234,12 +237,23 @@ export default function FormView({ navigation }) {
           </View>
         )}
       </ScrollView>
+      {console.log(
+        'isCustomSubscriptionForm is',
+        isCustomSubscriptionForm,
+        ' and name is ',
+        name,
+        ' and amount is ',
+        amount
+      )}
 
       <FooterButton
         onPressAction={() =>
           mode === 'edit' ? updateSubscription(index) : addSubscriptionsData()
         }
-        isDisabled={amount === ''}
+        isDisabled={
+          amount <= 0 ||
+          (isCustomSubscriptionForm && name === '' && amount <= 0)
+        }
         label={mode === 'edit' ? 'Save Changes' : 'save'}
       />
     </View>

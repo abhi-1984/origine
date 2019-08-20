@@ -17,7 +17,10 @@ import {
   setDefaultSortTypeData,
   setDefaultHighAlertAmountData
 } from '../actions';
+import firebase from 'firebase';
+import Constants from 'expo-constants';
 
+const deviceID = Constants.installationId;
 export default function Settings({ navigation }) {
   //REDUX
   const currencyData = useSelector(state => state.currencyReducer);
@@ -27,20 +30,29 @@ export default function Settings({ navigation }) {
   const [currencies, setCurrencies] = useState([]);
   const [isCurrencySelection, setCurrencySelection] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD ($)');
-  const [sortType, setSortType] = useState([
-    'Max. Amount',
-    'Min. Amount',
-    'Alphabetical'
-  ]);
-  const [isSortTypeSelection, setSortTypeSelection] = useState(false);
-  const [selectedSortType, setSelectedSortType] = useState('');
-  const [highAlertAmount, setHighAlertAmount] = useState('50');
-  const [isHighAlertAmountViewOpen, setHighAlertAmountView] = useState(false);
+  const [highAlertAmount, setHighAlertAmount] = useState('1500');
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setSelectedSortType(sortType[0]);
     setCurrencies([...currencyData]);
+    firebase
+      .database()
+      .ref(`${deviceID}/preferences`)
+      .on('value', data => {
+        let jsonData = data.toJSON();
+
+        setHighAlertAmount(jsonData ? jsonData.highAlertAmount : '1500');
+        setSelectedCurrency(jsonData ? jsonData.currency : 'USD ($)');
+        setLoading(false);
+      });
   }, []);
+
+  setGlobalPreferences = data => {
+    firebase
+      .database()
+      .ref(`${deviceID}/preferences`)
+      .set(data);
+  };
 
   openAboutScreen = () => {
     navigation.push('About');
@@ -54,19 +66,15 @@ export default function Settings({ navigation }) {
     if (item) {
       dispatch(setSelectedCurrencyData(item));
     }
+    firebase
+      .database()
+      .ref(`${deviceID}/preferences/`)
+      .update({ currency: item });
     setCurrencySelection(false);
   };
 
   onCurrencyChange = (item, itemPosition) => {
     setSelectedCurrency(item);
-  };
-
-  closeHighAlertAmountModal = () => {
-    setHighAlertAmountView(false);
-  };
-
-  openHighAlertAmountModal = () => {
-    setHighAlertAmountView(true);
   };
 
   return (
@@ -98,9 +106,13 @@ export default function Settings({ navigation }) {
               maxLength={5}
               returnKeyType='done'
               keyboardType={'numeric'}
-              onChangeText={highAlertAmount => {
-                setHighAlertAmount(highAlertAmount);
-                dispatch(setDefaultHighAlertAmountData(highAlertAmount));
+              onChangeText={amount => {
+                firebase
+                  .database()
+                  .ref(`${deviceID}/preferences/`)
+                  .update({ highAlertAmount: amount });
+                setHighAlertAmount(amount);
+                dispatch(setDefaultHighAlertAmountData(amount));
               }}
               value={highAlertAmount}
               style={styles.rowField}

@@ -31,9 +31,6 @@ export default function Popover({
       <View style={styles.popupView}>
         <View style={styles.popupHeader}>
           <Text style={styles.popupTitle}>{title}</Text>
-          <TouchableOpacity style={styles.closeView} onPress={onCloseAction}>
-            <Text>close</Text>
-          </TouchableOpacity>
         </View>
 
         <View style={styles.popupBody}>
