@@ -212,6 +212,9 @@ export default function FormView({ navigation }) {
         <DateTimePicker
           confirmTextIOS='Done'
           isVisible={firstBillDatePicker}
+          confirmTextStyle={{ fontWeight: '700' }}
+          titleStyle={{ fontSize: 16, fontWeight: '600', color: '#000' }}
+          cancelTextStyle={{ color: '#DD1F2A' }}
           onConfirm={date => handleDatePicked(formatDate(date))}
           onCancel={() => closeDatePicker()}
         />
