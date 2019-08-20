@@ -85,7 +85,11 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.homeWrapper}>
       {!isLoading ? (
-        <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1
+          }}
+        >
           <HeaderView
             subscriptionsCount={subscriptions.length}
             openAddSubscriptionView={() => this.handleAddSubscriptionView()}
@@ -116,7 +120,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   homeWrapper: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
   listView: {
     marginBottom: 65,
