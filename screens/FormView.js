@@ -64,7 +64,6 @@ export default function FormView({ navigation }) {
     setIndex(pageData.index);
     setCustomSubscriptionForm(pageData.custom);
     setCustomColor(pageData.color);
-    console.log('device id is>>>', deviceID);
   }, []);
 
   openDatePicker = () => {
@@ -237,14 +236,6 @@ export default function FormView({ navigation }) {
           </View>
         )}
       </ScrollView>
-      {console.log(
-        'isCustomSubscriptionForm is',
-        isCustomSubscriptionForm,
-        ' and name is ',
-        name,
-        ' and amount is ',
-        amount
-      )}
 
       <FooterButton
         onPressAction={() =>

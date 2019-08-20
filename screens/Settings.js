@@ -14,7 +14,6 @@ import Popover from '../components/Popover';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedCurrencyData,
-  setDefaultSortTypeData,
   setDefaultHighAlertAmountData
 } from '../actions';
 import firebase from 'firebase';
@@ -31,7 +30,6 @@ export default function Settings({ navigation }) {
   const [isCurrencySelection, setCurrencySelection] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD ($)');
   const [highAlertAmount, setHighAlertAmount] = useState('1500');
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     setCurrencies([...currencyData]);
@@ -43,16 +41,8 @@ export default function Settings({ navigation }) {
 
         setHighAlertAmount(jsonData ? jsonData.highAlertAmount : '1500');
         setSelectedCurrency(jsonData ? jsonData.currency : 'USD ($)');
-        setLoading(false);
       });
   }, []);
-
-  setGlobalPreferences = data => {
-    firebase
-      .database()
-      .ref(`${deviceID}/preferences`)
-      .set(data);
-  };
 
   openAboutScreen = () => {
     navigation.push('About');
