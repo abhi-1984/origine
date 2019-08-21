@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FlatList,
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator
-} from 'react-native';
+import { FlatList, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import SubscriptionRow from '../components/SubscriptionRow';
 import HeaderView from '../components/HeaderView';
@@ -18,7 +12,6 @@ const deviceID = Constants.installationId;
 export default function Home({ navigation }) {
   //Redux
   const subscriptionsData = useSelector(state => state.subscriptionsReducer);
-  const defaultSortType = useSelector(state => state.setDefaultSortTypeReducer);
 
   //State
   const [subscriptions, setSubscriptions] = useState([]);

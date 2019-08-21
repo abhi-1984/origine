@@ -6,10 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  ScrollView,
-  Picker,
-  Dimensions,
-  DatePickerIOS
+  ScrollView
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import PageTitle from '../components/PageTitle';
@@ -25,7 +22,6 @@ import {
 import firebase from 'firebase';
 import Constants from 'expo-constants';
 
-const SCREEN_WIDTH = Dimensions.get('screen').width;
 const deviceID = Constants.installationId;
 
 export default function FormView({ navigation }) {

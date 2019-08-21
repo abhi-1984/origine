@@ -31,7 +31,6 @@ export default function SubscriptionRow({ data, onPressAction }) {
 
   return (
     <TouchableOpacity onPress={onPressAction} style={styles.row}>
-      {console.log('highAlertAmount is.>', globalHighCurrencyRate)}
       {data.isCustomSubscription ? (
         <View
           style={[
