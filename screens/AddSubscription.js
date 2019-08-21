@@ -12,10 +12,6 @@ import availableSubscriptions from '../utils/availableSubscriptions';
 import AddSubscriptionRow from '../components/AddSubscriptionRow';
 
 export default class AddSubscription extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
-
   state = {
     subscriptions: [
       {

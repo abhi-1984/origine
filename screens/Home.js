@@ -27,7 +27,7 @@ export default function Home({ navigation }) {
   //Navigation
   handleAddSubscriptionView = () => {
     navigation.push('AddSubscription', {
-      subscriptionsAdded: subscriptionsData
+      subscriptionsAdded: subscriptions
     });
   };
 
