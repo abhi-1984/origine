@@ -114,7 +114,6 @@ export default function Settings({ navigation }) {
             title='About Us'
             defaultValue=''
           />
-          <Version versionNumber='v 1.0' />
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
