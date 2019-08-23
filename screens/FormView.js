@@ -32,7 +32,6 @@ export default function FormView({ navigation }) {
   const [mode, setMode] = useState(null);
   const [index, setIndex] = useState(null);
   const [name, setName] = useState('');
-  const [logo, setLogo] = useState(null);
   const [amount, setAmount] = useState(null);
   const [firstBillDate, setFirstBillDate] = useState('');
   const [billingCycle, setBillingCycle] = useState('Monthly');
@@ -47,19 +46,20 @@ export default function FormView({ navigation }) {
   const [firstBillDatePicker, setFirstBillDatePicker] = useState(false);
   const [billingCyclePicker, setBillingCyclePicker] = useState(false);
   const [isCustomSubscriptionForm, setCustomSubscriptionForm] = useState(false);
-  const [customColor, setCustomColor] = useState('#000');
+  const [color, setColor] = useState('#000');
 
   useEffect(() => {
     const pageData = navigation.getParam('pageData', {});
+
     setName(pageData.name);
-    setLogo(pageData.logo);
+
     setAmount(pageData.amount);
     setFirstBillDate(pageData.firstBillDate);
     setBillingCycle(pageData.billingCycle);
     setMode(pageData.mode);
     setIndex(pageData.index);
     setCustomSubscriptionForm(pageData.custom);
-    setCustomColor(pageData.color);
+    setColor(pageData.color);
   }, []);
 
   openDatePicker = () => {
@@ -105,11 +105,10 @@ export default function FormView({ navigation }) {
   addSubscriptionsData = () => {
     const data = {
       name: name,
-      logo: isCustomSubscriptionForm ? '' : logo,
       amount: amount,
       billingCycle: billingCycle,
       firstBillDate: firstBillDate,
-      color: isCustomSubscriptionForm ? customColor : '',
+      color: color,
       isCustomSubscription: isCustomSubscriptionForm ? true : false
     };
 
@@ -134,12 +133,11 @@ export default function FormView({ navigation }) {
   updateSubscription = index => {
     const data = {
       name: name,
-      logo: logo,
       amount: amount,
       billingCycle: billingCycle,
       firstBillDate: firstBillDate,
       index: index,
-      color: isCustomSubscriptionForm ? customColor : '',
+      color: color,
       isCustomSubscription: isCustomSubscriptionForm ? true : false
     };
     dispatch(updateSubscriptionData(data));
@@ -157,11 +155,7 @@ export default function FormView({ navigation }) {
         label={mode === 'edit' ? `Edit Subscription` : 'Add Subscription'}
       />
       <ScrollView contentContainerStyle={styles.formWrapper}>
-        {isCustomSubscriptionForm ? (
-          <View style={[styles.customLogo, { backgroundColor: customColor }]} />
-        ) : (
-          <Image style={styles.logo} source={logo} />
-        )}
+        <View style={[styles.colorLogo, { backgroundColor: color }]} />
 
         {!isCustomSubscriptionForm && <Text style={styles.name}>{name}</Text>}
 
@@ -259,13 +253,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 30
   },
-  logo: {
-    width: 60,
-    height: 60,
-    marginTop: 15,
-    marginBottom: 10
-  },
-  customLogo: {
+  colorLogo: {
     width: 60,
     height: 60,
     marginTop: 15,

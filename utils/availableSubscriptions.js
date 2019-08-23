@@ -2,52 +2,52 @@ const availableSubscription = [
   {
     key: 1,
     name: 'Spotify',
-    logo: require('../assets/Spotify.png')
+    color: '#1ED760'
   },
   {
     key: 2,
     name: 'Apple Music',
-    logo: require('../assets/Apple.png')
+    color: '#000'
   },
   {
     key: 3,
     name: 'Webflow',
-    logo: require('../assets/Webflow.png')
+    color: '#484BFF'
   },
   {
     key: 4,
     name: 'Sketch',
-    logo: require('../assets/Sketch.png')
+    color: '#FDA900'
   },
   {
     key: 5,
     name: 'Figma',
-    logo: require('../assets/Figma.png')
+    color: '#FF7262'
   },
   {
     key: 6,
     name: 'Framer',
-    logo: require('../assets/FramerX.png')
+    color: '#0057ff'
   },
   {
     key: 7,
     name: 'Dropbox',
-    logo: require('../assets/Dropbox.png')
+    color: '#0E2086'
   },
   {
     key: 8,
     name: 'Dribbble',
-    logo: require('../assets/Dribbble.png')
+    color: '#E74D89'
   },
   {
     key: 9,
     name: 'Netflix',
-    logo: require('../assets/Netflix.png')
+    color: '#C40000'
   },
   {
     key: 10,
     name: 'Amazon Prime',
-    logo: require('../assets/AmazonPrime.png')
+    color: '#00ADEE'
   }
 ];
 

@@ -22,7 +22,7 @@ export default class About extends React.Component {
             source={require('../assets/aboutImage.png')}
           />
           <Text style={styles.pageDescription}>
-            Origine is a minimal app to track your subscriptions and made by
+            cartera is a minimal app to track your subscriptions and made by
             Abhi
           </Text>
           <Text style={styles.pageCaption}>Designed in India</Text>

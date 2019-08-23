@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import PageTitle from '../components/PageTitle';
 import FooterButton from '../components/FooterButton';
-import availableSubscriptions from '../utils/availableSubscriptions';
 import AddSubscriptionRow from '../components/AddSubscriptionRow';
 
 export default class AddSubscription extends React.Component {
@@ -17,52 +16,52 @@ export default class AddSubscription extends React.Component {
       {
         key: 1,
         name: 'Spotify',
-        logo: require('../assets/Spotify.png')
+        color: '#1ED760'
       },
       {
         key: 2,
         name: 'Apple Music',
-        logo: require('../assets/Apple.png')
+        color: '#000'
       },
       {
         key: 3,
         name: 'Webflow',
-        logo: require('../assets/Webflow.png')
+        color: '#484BFF'
       },
       {
         key: 4,
         name: 'Sketch',
-        logo: require('../assets/Sketch.png')
+        color: '#FDA900'
       },
       {
         key: 5,
         name: 'Figma',
-        logo: require('../assets/Figma.png')
+        color: '#FF7262'
       },
       {
         key: 6,
         name: 'Framer',
-        logo: require('../assets/FramerX.png')
+        color: '#0057ff'
       },
       {
         key: 7,
         name: 'Dropbox',
-        logo: require('../assets/Dropbox.png')
+        color: '#0E2086'
       },
       {
         key: 8,
         name: 'Dribbble',
-        logo: require('../assets/Dribbble.png')
+        color: '#E74D89'
       },
       {
         key: 9,
         name: 'Netflix',
-        logo: require('../assets/Netflix.png')
+        color: '#C40000'
       },
       {
         key: 10,
         name: 'Amazon Prime',
-        logo: require('../assets/AmazonPrime.png')
+        color: '#00ADEE'
       }
     ]
   };
@@ -75,7 +74,7 @@ export default class AddSubscription extends React.Component {
     return {
       pageTitle: 'Add Subscription',
       name: item.name,
-      logo: item.logo,
+      color: item.color,
       amount: '0',
       firstBillDate: 'Aug 17, 2019',
       billingCycle: 'Monthly',
@@ -103,12 +102,12 @@ export default class AddSubscription extends React.Component {
 
   getRandomColor = () => {
     const colors = [
-      '#000000',
-      '#0057ff',
-      '#4B96E9',
-      '#5D4BE9',
-      '#1ED760',
-      '#D71E6C'
+      '#fa983a',
+      '#82ccdd',
+      '#78e08f',
+      '#1e3799',
+      '#b71540',
+      '#f8c291'
     ];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     return randomColor;
@@ -146,7 +145,7 @@ export default class AddSubscription extends React.Component {
             <AddSubscriptionRow
               handlePress={() => this.openFormViewForDefaultSubscription(item)}
               label={item.name}
-              logo={item.logo}
+              color={item.color}
             />
           )}
         />

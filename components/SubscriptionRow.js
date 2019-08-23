@@ -31,16 +31,12 @@ export default function SubscriptionRow({ data, onPressAction }) {
 
   return (
     <TouchableOpacity onPress={onPressAction} style={styles.row}>
-      {data.isCustomSubscription ? (
-        <View
-          style={[
-            styles.logo,
-            { backgroundColor: data.color, borderRadius: 22.5 }
-          ]}
-        />
-      ) : (
-        <Image style={styles.logo} source={data.logo} resizeMode={'contain'} />
-      )}
+      <View
+        style={[
+          styles.logo,
+          { backgroundColor: data.color, borderRadius: 22.5 }
+        ]}
+      />
 
       <View style={styles.subscriptionInfo}>
         <Text style={styles.name}>{data.name}</Text>

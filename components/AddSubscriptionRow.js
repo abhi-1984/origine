@@ -2,10 +2,10 @@ import React from 'react';
 import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AddSubscriptionRow({ label, handlePress, logo }) {
+export default function AddSubscriptionRow({ label, handlePress, color }) {
   return (
     <TouchableOpacity style={styles.row} onPress={handlePress}>
-      <Image style={styles.logo} source={logo} resizeMode={'contain'} />
+      <View style={[styles.logo, { backgroundColor: color }]} />
       <View style={styles.subscriptionInfo}>
         <Text style={styles.name}>{label}</Text>
       </View>
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 45,
     height: 45,
-    marginRight: 15
+    marginRight: 15,
+    borderRadius: 22.5
   },
   name: {
     fontSize: 16,
